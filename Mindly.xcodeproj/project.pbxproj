@@ -1,0 +1,521 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FEF599041CF681EA003E3D6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF599031CF681EA003E3D6F /* main.m */; };
+		FEF599071CF681EA003E3D6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF599061CF681EA003E3D6F /* AppDelegate.m */; };
+		FEF5990A1CF681EA003E3D6F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF599091CF681EA003E3D6F /* ViewController.m */; };
+		FEF5990D1CF681EA003E3D6F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEF5990B1CF681EA003E3D6F /* Main.storyboard */; };
+		FEF5990F1CF681EA003E3D6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEF5990E1CF681EA003E3D6F /* Assets.xcassets */; };
+		FEF599121CF681EA003E3D6F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEF599101CF681EA003E3D6F /* LaunchScreen.storyboard */; };
+		FEF5991D1CF681EA003E3D6F /* MindlyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF5991C1CF681EA003E3D6F /* MindlyTests.m */; };
+		FEF599281CF681EA003E3D6F /* MindlyUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF599271CF681EA003E3D6F /* MindlyUITests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FEF599191CF681EA003E3D6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FEF598F71CF681EA003E3D6F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FEF598FE1CF681EA003E3D6F;
+			remoteInfo = Mindly;
+		};
+		FEF599241CF681EA003E3D6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FEF598F71CF681EA003E3D6F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FEF598FE1CF681EA003E3D6F;
+			remoteInfo = Mindly;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		FEF598FF1CF681EA003E3D6F /* Mindly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mindly.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FEF599031CF681EA003E3D6F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FEF599051CF681EA003E3D6F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		FEF599061CF681EA003E3D6F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		FEF599081CF681EA003E3D6F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		FEF599091CF681EA003E3D6F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		FEF5990C1CF681EA003E3D6F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FEF5990E1CF681EA003E3D6F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FEF599111CF681EA003E3D6F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FEF599131CF681EA003E3D6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FEF599181CF681EA003E3D6F /* MindlyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MindlyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FEF5991C1CF681EA003E3D6F /* MindlyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MindlyTests.m; sourceTree = "<group>"; };
+		FEF5991E1CF681EA003E3D6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FEF599231CF681EA003E3D6F /* MindlyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MindlyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FEF599271CF681EA003E3D6F /* MindlyUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MindlyUITests.m; sourceTree = "<group>"; };
+		FEF599291CF681EA003E3D6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FEF598FC1CF681EA003E3D6F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FEF599151CF681EA003E3D6F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FEF599201CF681EA003E3D6F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FEF598F61CF681EA003E3D6F = {
+			isa = PBXGroup;
+			children = (
+				FEF599011CF681EA003E3D6F /* Mindly */,
+				FEF5991B1CF681EA003E3D6F /* MindlyTests */,
+				FEF599261CF681EA003E3D6F /* MindlyUITests */,
+				FEF599001CF681EA003E3D6F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FEF599001CF681EA003E3D6F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FEF598FF1CF681EA003E3D6F /* Mindly.app */,
+				FEF599181CF681EA003E3D6F /* MindlyTests.xctest */,
+				FEF599231CF681EA003E3D6F /* MindlyUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FEF599011CF681EA003E3D6F /* Mindly */ = {
+			isa = PBXGroup;
+			children = (
+				FEF599051CF681EA003E3D6F /* AppDelegate.h */,
+				FEF599061CF681EA003E3D6F /* AppDelegate.m */,
+				FEF599081CF681EA003E3D6F /* ViewController.h */,
+				FEF599091CF681EA003E3D6F /* ViewController.m */,
+				FEF5990B1CF681EA003E3D6F /* Main.storyboard */,
+				FEF5990E1CF681EA003E3D6F /* Assets.xcassets */,
+				FEF599101CF681EA003E3D6F /* LaunchScreen.storyboard */,
+				FEF599131CF681EA003E3D6F /* Info.plist */,
+				FEF599021CF681EA003E3D6F /* Supporting Files */,
+			);
+			path = Mindly;
+			sourceTree = "<group>";
+		};
+		FEF599021CF681EA003E3D6F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FEF599031CF681EA003E3D6F /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FEF5991B1CF681EA003E3D6F /* MindlyTests */ = {
+			isa = PBXGroup;
+			children = (
+				FEF5991C1CF681EA003E3D6F /* MindlyTests.m */,
+				FEF5991E1CF681EA003E3D6F /* Info.plist */,
+			);
+			path = MindlyTests;
+			sourceTree = "<group>";
+		};
+		FEF599261CF681EA003E3D6F /* MindlyUITests */ = {
+			isa = PBXGroup;
+			children = (
+				FEF599271CF681EA003E3D6F /* MindlyUITests.m */,
+				FEF599291CF681EA003E3D6F /* Info.plist */,
+			);
+			path = MindlyUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FEF598FE1CF681EA003E3D6F /* Mindly */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FEF5992C1CF681EA003E3D6F /* Build configuration list for PBXNativeTarget "Mindly" */;
+			buildPhases = (
+				FEF598FB1CF681EA003E3D6F /* Sources */,
+				FEF598FC1CF681EA003E3D6F /* Frameworks */,
+				FEF598FD1CF681EA003E3D6F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Mindly;
+			productName = Mindly;
+			productReference = FEF598FF1CF681EA003E3D6F /* Mindly.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FEF599171CF681EA003E3D6F /* MindlyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FEF5992F1CF681EA003E3D6F /* Build configuration list for PBXNativeTarget "MindlyTests" */;
+			buildPhases = (
+				FEF599141CF681EA003E3D6F /* Sources */,
+				FEF599151CF681EA003E3D6F /* Frameworks */,
+				FEF599161CF681EA003E3D6F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FEF5991A1CF681EA003E3D6F /* PBXTargetDependency */,
+			);
+			name = MindlyTests;
+			productName = MindlyTests;
+			productReference = FEF599181CF681EA003E3D6F /* MindlyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FEF599221CF681EA003E3D6F /* MindlyUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FEF599321CF681EA003E3D6F /* Build configuration list for PBXNativeTarget "MindlyUITests" */;
+			buildPhases = (
+				FEF5991F1CF681EA003E3D6F /* Sources */,
+				FEF599201CF681EA003E3D6F /* Frameworks */,
+				FEF599211CF681EA003E3D6F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FEF599251CF681EA003E3D6F /* PBXTargetDependency */,
+			);
+			name = MindlyUITests;
+			productName = MindlyUITests;
+			productReference = FEF599231CF681EA003E3D6F /* MindlyUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FEF598F71CF681EA003E3D6F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = LongLong;
+				TargetAttributes = {
+					FEF598FE1CF681EA003E3D6F = {
+						CreatedOnToolsVersion = 7.2;
+					};
+					FEF599171CF681EA003E3D6F = {
+						CreatedOnToolsVersion = 7.2;
+						TestTargetID = FEF598FE1CF681EA003E3D6F;
+					};
+					FEF599221CF681EA003E3D6F = {
+						CreatedOnToolsVersion = 7.2;
+						TestTargetID = FEF598FE1CF681EA003E3D6F;
+					};
+				};
+			};
+			buildConfigurationList = FEF598FA1CF681EA003E3D6F /* Build configuration list for PBXProject "Mindly" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FEF598F61CF681EA003E3D6F;
+			productRefGroup = FEF599001CF681EA003E3D6F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FEF598FE1CF681EA003E3D6F /* Mindly */,
+				FEF599171CF681EA003E3D6F /* MindlyTests */,
+				FEF599221CF681EA003E3D6F /* MindlyUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FEF598FD1CF681EA003E3D6F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEF599121CF681EA003E3D6F /* LaunchScreen.storyboard in Resources */,
+				FEF5990F1CF681EA003E3D6F /* Assets.xcassets in Resources */,
+				FEF5990D1CF681EA003E3D6F /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FEF599161CF681EA003E3D6F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FEF599211CF681EA003E3D6F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FEF598FB1CF681EA003E3D6F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEF5990A1CF681EA003E3D6F /* ViewController.m in Sources */,
+				FEF599071CF681EA003E3D6F /* AppDelegate.m in Sources */,
+				FEF599041CF681EA003E3D6F /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FEF599141CF681EA003E3D6F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEF5991D1CF681EA003E3D6F /* MindlyTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FEF5991F1CF681EA003E3D6F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEF599281CF681EA003E3D6F /* MindlyUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FEF5991A1CF681EA003E3D6F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FEF598FE1CF681EA003E3D6F /* Mindly */;
+			targetProxy = FEF599191CF681EA003E3D6F /* PBXContainerItemProxy */;
+		};
+		FEF599251CF681EA003E3D6F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FEF598FE1CF681EA003E3D6F /* Mindly */;
+			targetProxy = FEF599241CF681EA003E3D6F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FEF5990B1CF681EA003E3D6F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FEF5990C1CF681EA003E3D6F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		FEF599101CF681EA003E3D6F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FEF599111CF681EA003E3D6F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FEF5992A1CF681EA003E3D6F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FEF5992B1CF681EA003E3D6F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FEF5992D1CF681EA003E3D6F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Mindly/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = CCF.Mindly;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		FEF5992E1CF681EA003E3D6F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Mindly/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = CCF.Mindly;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		FEF599301CF681EA003E3D6F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = MindlyTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = CCF.MindlyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mindly.app/Mindly";
+			};
+			name = Debug;
+		};
+		FEF599311CF681EA003E3D6F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = MindlyTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = CCF.MindlyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mindly.app/Mindly";
+			};
+			name = Release;
+		};
+		FEF599331CF681EA003E3D6F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = MindlyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = CCF.MindlyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Mindly;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		FEF599341CF681EA003E3D6F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = MindlyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = CCF.MindlyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Mindly;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FEF598FA1CF681EA003E3D6F /* Build configuration list for PBXProject "Mindly" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FEF5992A1CF681EA003E3D6F /* Debug */,
+				FEF5992B1CF681EA003E3D6F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FEF5992C1CF681EA003E3D6F /* Build configuration list for PBXNativeTarget "Mindly" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FEF5992D1CF681EA003E3D6F /* Debug */,
+				FEF5992E1CF681EA003E3D6F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		FEF5992F1CF681EA003E3D6F /* Build configuration list for PBXNativeTarget "MindlyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FEF599301CF681EA003E3D6F /* Debug */,
+				FEF599311CF681EA003E3D6F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		FEF599321CF681EA003E3D6F /* Build configuration list for PBXNativeTarget "MindlyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FEF599331CF681EA003E3D6F /* Debug */,
+				FEF599341CF681EA003E3D6F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FEF598F71CF681EA003E3D6F /* Project object */;
+}
