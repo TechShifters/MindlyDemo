@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FEEE6D2C1CFFDCDE0095D047 /* LLShowViewObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEE6D2B1CFFDCDE0095D047 /* LLShowViewObject.m */; };
 		FEF599041CF681EA003E3D6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF599031CF681EA003E3D6F /* main.m */; };
 		FEF599071CF681EA003E3D6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF599061CF681EA003E3D6F /* AppDelegate.m */; };
 		FEF5990A1CF681EA003E3D6F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF599091CF681EA003E3D6F /* ViewController.m */; };
@@ -15,6 +16,11 @@
 		FEF599121CF681EA003E3D6F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEF599101CF681EA003E3D6F /* LaunchScreen.storyboard */; };
 		FEF5991D1CF681EA003E3D6F /* MindlyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF5991C1CF681EA003E3D6F /* MindlyTests.m */; };
 		FEF599281CF681EA003E3D6F /* MindlyUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF599271CF681EA003E3D6F /* MindlyUITests.m */; };
+		FEF599371CF68378003E3D6F /* LLMoonView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF599361CF68378003E3D6F /* LLMoonView.m */; };
+		FEF5993A1CF683AB003E3D6F /* LLStarView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF599391CF683AB003E3D6F /* LLStarView.m */; };
+		FEF5993E1CF68487003E3D6F /* LLStarObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF5993D1CF68487003E3D6F /* LLStarObject.m */; };
+		FEF599401CF68675003E3D6F /* DataList.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEF5993F1CF68675003E3D6F /* DataList.plist */; };
+		FEF599461CF6A275003E3D6F /* LLGalaxyView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF599451CF6A275003E3D6F /* LLGalaxyView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FEEE6D2A1CFFDCDE0095D047 /* LLShowViewObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLShowViewObject.h; sourceTree = "<group>"; };
+		FEEE6D2B1CFFDCDE0095D047 /* LLShowViewObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLShowViewObject.m; sourceTree = "<group>"; };
 		FEF598FF1CF681EA003E3D6F /* Mindly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mindly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEF599031CF681EA003E3D6F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FEF599051CF681EA003E3D6F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -51,6 +59,15 @@
 		FEF599231CF681EA003E3D6F /* MindlyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MindlyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEF599271CF681EA003E3D6F /* MindlyUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MindlyUITests.m; sourceTree = "<group>"; };
 		FEF599291CF681EA003E3D6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FEF599351CF68378003E3D6F /* LLMoonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LLMoonView.h; path = ../LLMoonView.h; sourceTree = "<group>"; };
+		FEF599361CF68378003E3D6F /* LLMoonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LLMoonView.m; path = ../LLMoonView.m; sourceTree = "<group>"; };
+		FEF599381CF683AB003E3D6F /* LLStarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLStarView.h; sourceTree = "<group>"; };
+		FEF599391CF683AB003E3D6F /* LLStarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLStarView.m; sourceTree = "<group>"; };
+		FEF5993C1CF68487003E3D6F /* LLStarObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLStarObject.h; sourceTree = "<group>"; };
+		FEF5993D1CF68487003E3D6F /* LLStarObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLStarObject.m; sourceTree = "<group>"; };
+		FEF5993F1CF68675003E3D6F /* DataList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DataList.plist; sourceTree = "<group>"; };
+		FEF599441CF6A275003E3D6F /* LLGalaxyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLGalaxyView.h; sourceTree = "<group>"; };
+		FEF599451CF6A275003E3D6F /* LLGalaxyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLGalaxyView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +118,7 @@
 		FEF599011CF681EA003E3D6F /* Mindly */ = {
 			isa = PBXGroup;
 			children = (
+				FEF5993B1CF683B0003E3D6F /* PlanetaryAnimation */,
 				FEF599051CF681EA003E3D6F /* AppDelegate.h */,
 				FEF599061CF681EA003E3D6F /* AppDelegate.m */,
 				FEF599081CF681EA003E3D6F /* ViewController.h */,
@@ -138,6 +156,32 @@
 				FEF599291CF681EA003E3D6F /* Info.plist */,
 			);
 			path = MindlyUITests;
+			sourceTree = "<group>";
+		};
+		FEF5993B1CF683B0003E3D6F /* PlanetaryAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				FEF599431CF68849003E3D6F /* PlanetaryData */,
+				FEF599381CF683AB003E3D6F /* LLStarView.h */,
+				FEF599391CF683AB003E3D6F /* LLStarView.m */,
+				FEF599351CF68378003E3D6F /* LLMoonView.h */,
+				FEF599361CF68378003E3D6F /* LLMoonView.m */,
+				FEF599441CF6A275003E3D6F /* LLGalaxyView.h */,
+				FEF599451CF6A275003E3D6F /* LLGalaxyView.m */,
+			);
+			name = PlanetaryAnimation;
+			sourceTree = "<group>";
+		};
+		FEF599431CF68849003E3D6F /* PlanetaryData */ = {
+			isa = PBXGroup;
+			children = (
+				FEEE6D2A1CFFDCDE0095D047 /* LLShowViewObject.h */,
+				FEEE6D2B1CFFDCDE0095D047 /* LLShowViewObject.m */,
+				FEF5993C1CF68487003E3D6F /* LLStarObject.h */,
+				FEF5993D1CF68487003E3D6F /* LLStarObject.m */,
+				FEF5993F1CF68675003E3D6F /* DataList.plist */,
+			);
+			name = PlanetaryData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,6 +289,7 @@
 			files = (
 				FEF599121CF681EA003E3D6F /* LaunchScreen.storyboard in Resources */,
 				FEF5990F1CF681EA003E3D6F /* Assets.xcassets in Resources */,
+				FEF599401CF68675003E3D6F /* DataList.plist in Resources */,
 				FEF5990D1CF681EA003E3D6F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,9 +315,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FEEE6D2C1CFFDCDE0095D047 /* LLShowViewObject.m in Sources */,
+				FEF5993E1CF68487003E3D6F /* LLStarObject.m in Sources */,
 				FEF5990A1CF681EA003E3D6F /* ViewController.m in Sources */,
 				FEF599071CF681EA003E3D6F /* AppDelegate.m in Sources */,
+				FEF599461CF6A275003E3D6F /* LLGalaxyView.m in Sources */,
 				FEF599041CF681EA003E3D6F /* main.m in Sources */,
+				FEF5993A1CF683AB003E3D6F /* LLStarView.m in Sources */,
+				FEF599371CF68378003E3D6F /* LLMoonView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,7 +394,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yong Jiang (CW4B5Q68EA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yong Jiang (CW4B5Q68EA)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -366,6 +417,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "f2f3af3f-f744-4674-bd70-b9dfe6ab2445";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -388,7 +440,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yong Jiang (CW4B5Q68EA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yong Jiang (CW4B5Q68EA)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -403,6 +456,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "f2f3af3f-f744-4674-bd70-b9dfe6ab2445";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -413,10 +467,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yong Jiang (CW4B5Q68EA)";
 				INFOPLIST_FILE = Mindly/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = CCF.Mindly;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "f2f3af3f-f744-4674-bd70-b9dfe6ab2445";
 			};
 			name = Debug;
 		};
@@ -424,10 +481,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yong Jiang (CW4B5Q68EA)";
 				INFOPLIST_FILE = Mindly/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = CCF.Mindly;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "f2f3af3f-f744-4674-bd70-b9dfe6ab2445";
 			};
 			name = Release;
 		};
@@ -498,6 +558,7 @@
 				FEF5992E1CF681EA003E3D6F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FEF5992F1CF681EA003E3D6F /* Build configuration list for PBXNativeTarget "MindlyTests" */ = {
 			isa = XCConfigurationList;
@@ -506,6 +567,7 @@
 				FEF599311CF681EA003E3D6F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FEF599321CF681EA003E3D6F /* Build configuration list for PBXNativeTarget "MindlyUITests" */ = {
 			isa = XCConfigurationList;
@@ -514,6 +576,7 @@
 				FEF599341CF681EA003E3D6F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
