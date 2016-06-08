@@ -56,7 +56,7 @@
     }
     return self;
 }
--(void)setMoonStage:(MoonState) stage andWithStar:(LLStarView *)starView;
+-(void)setMoonStage:(MoonState) stage andWithStar:(LLStarView *)starView andIsMove:(BOOL) isMove;
 {
     moonStage = stage;
     switch (stage) {
@@ -75,28 +75,16 @@
             }
             self.alpha = 1;
             [self setHidden:NO];
+            
+            if (isMove) {
+                [self showMoonView];
+            }
             break;
         }default:
             break;
     }
 }
 
-//- (void)drawRect:(CGRect)rect {
-////    if (!isShow) {
-////        return;
-////    }
-//    if (moonStage==MoonHiden) {
-//        CGContextRef ctx=UIGraphicsGetCurrentContext();
-//        CGContextSetStrokeColorWithColor(ctx, [UIColor colorWithRed:220.0/255 green:220.0/255 blue:220.0/255 alpha:1].CGColor);
-//        CGContextAddArc(ctx, circleForLine.x, circleForLine.y,radiusForLine, 0, 2*M_PI, 0);
-//        CGContextStrokePath(ctx);
-//    }else{
-//        CGContextRef ctx=UIGraphicsGetCurrentContext();
-//        CGContextSetStrokeColorWithColor(ctx, [UIColor colorWithRed:220.0/255 green:220.0/255 blue:220.0/255 alpha:1].CGColor);
-//        CGContextAddArc(ctx, CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds), CGRectGetMidX(self.bounds)-StarWidth/2, 0, 2*M_PI, 0);
-//        CGContextStrokePath(ctx);
-//    }
-//}
 
 #pragma mark ----------------截取手势-----------------------
 
@@ -276,8 +264,12 @@
 
 -(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
+    //自己变为超星系   隐藏圆   隐藏卫星   显示下个星系的恒星
     LLCircleView *circleView = ((LLGalaxyView *)self.superview).circleView;
     [circleView setHidden:YES];
+    [self setHidden:YES];
+    
+    [((LLGalaxyView *)self.superview).starView.galaxyNext.starView setHidden:NO];
 
 }
 
@@ -308,7 +300,37 @@
     [circleView.layer addAnimation:group forKey:@"group"];
 }
 
+#pragma mark 新星系显示动画
+
+-(void)showMoonView
+{
+    //恒星放大
+    CABasicAnimation *animationOne = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    animationOne.fromValue = [NSNumber numberWithFloat:0.5];
+    animationOne.toValue = [NSNumber numberWithFloat:1];
+    // 移动
+    CABasicAnimation *animationTwo = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    
+    animationTwo.fromValue = @0.2;
+    animationTwo.toValue = @1.0;
+    //组合
+    CAAnimationGroup *group = [CAAnimationGroup animation];
+    group.repeatCount = 1;
+    group.duration = 0.5;
+    group.removedOnCompletion = NO;
+    group.fillMode = kCAFillModeForwards;
+    group.animations=@[animationOne,animationTwo];
+    [self.layer addAnimation:group forKey:@"group"];
+    
+    LLCircleView *circleView = ((LLGalaxyView *)self.superview).circleView;
+    [circleView.layer addAnimation:group forKey:@"group"];
+
+}
+
 @end
+
+
+
 
 //-(void)layoutSubviews
 //{
@@ -327,3 +349,20 @@
 //    [self setNeedsDisplay];
 //
 //}
+//- (void)drawRect:(CGRect)rect {
+////    if (!isShow) {
+////        return;
+////    }
+//    if (moonStage==MoonHiden) {
+//        CGContextRef ctx=UIGraphicsGetCurrentContext();
+//        CGContextSetStrokeColorWithColor(ctx, [UIColor colorWithRed:220.0/255 green:220.0/255 blue:220.0/255 alpha:1].CGColor);
+//        CGContextAddArc(ctx, circleForLine.x, circleForLine.y,radiusForLine, 0, 2*M_PI, 0);
+//        CGContextStrokePath(ctx);
+//    }else{
+//        CGContextRef ctx=UIGraphicsGetCurrentContext();
+//        CGContextSetStrokeColorWithColor(ctx, [UIColor colorWithRed:220.0/255 green:220.0/255 blue:220.0/255 alpha:1].CGColor);
+//        CGContextAddArc(ctx, CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds), CGRectGetMidX(self.bounds)-StarWidth/2, 0, 2*M_PI, 0);
+//        CGContextStrokePath(ctx);
+//    }
+//}
+

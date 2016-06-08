@@ -75,17 +75,17 @@
 #pragma  mark  --------------------星系转换--------------------
 -(void)showNextLevel
 {
-//    UIView *showView = [LLShowViewObject sharedInstance].onView;
-//    LLGalaxyView *galaxyView = [[LLGalaxyView alloc]initWithFrame:CGRectMake(0,0, CGRectGetWidth(showView.bounds)-20, CGRectGetWidth(showView.bounds)-20) andStar:theStarObject];
-//    [galaxyView setCenter:showView.center];
-//    [showView addSubview:galaxyView];
-//    [galaxyView setGalaxyStage:GalaxyActive];//新的是活跃星系
+    //老星系变成超星
+    [_galaxyAtSide setGalaxyStage:GalaxySuper andWithStar:self];
+    
+    //新的是活跃星系
+    UIView *showView = [LLShowViewObject sharedInstance].onView;
+    LLGalaxyView *galaxyView = [[LLGalaxyView alloc]initWithFrame:showView.frame andStar:theStarObject];
+    [showView addSubview:galaxyView];
+    [galaxyView setGalaxyStage:GalaxyActive andWithStar:nil];
+    galaxyView.starView.galaxyAtSide = self.galaxyAtSide;
+    _galaxyAtSide.starView.galaxyNext = galaxyView;
 
-    
-//    _galaxyAtSide.starView.galaxyNext = galaxyView;
-    
-    [_galaxyAtSide setGalaxyStage:GalaxySuper andWithStar:self];//老得星系变成超星
-    
 }
 
 -(void)showHigherLevel

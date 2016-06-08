@@ -24,6 +24,7 @@
     if (self) {
         [self setBackgroundColor:[UIColor clearColor]];
         starOb = starObject;
+        //加圆圈
         float r = CGRectGetMidX(self.bounds)-StarWidth/2;
         _circleView  = [[LLCircleView alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.bounds)-r, CGRectGetMidY(self.bounds)-r, r*2,r*2)];
         [self addSubview:_circleView];
@@ -72,24 +73,34 @@
     
 
 }
-
+-(void)hideLine
+{
+    isHidenLine = YES;
+    [self setNeedsDisplay];
+}
 -(void)setGalaxyStage:(GalaxyState) stage  andWithStar:(LLStarView *) starView;
 {
     switch (stage) {
         case GalaxySuper:{
             isHidenLine = NO;
             [self changeToSuperGalaxy];
-            
+            [_starView.galaxyAtSide hideLine];//隐藏上个星系的线
             _starView.stage = StarSuperCenter;
-            [_moonView setMoonStage:MoonHiden andWithStar:starView];
+            [_moonView setMoonStage:MoonHiden andWithStar:starView andIsMove:NO];
             break;
             
         }case GalaxyActive:{
-            _starView.stage = StarCenter;
-            [_moonView setMoonStage:MoonOut andWithStar:starView];
-            
             isHidenLine = YES;
             [self setNeedsDisplay];
+            
+            _starView.stage = StarCenter;
+            
+            if (self.superview.subviews.count>1) {
+                [_starView setHidden:YES];
+                [_moonView setMoonStage:MoonOut andWithStar:starView  andIsMove:YES];
+            }else{
+                [_moonView setMoonStage:MoonOut andWithStar:starView  andIsMove:NO];
+            }
             break;
         }case GalaxyHiden:{
             self.alpha = 0;
@@ -101,6 +112,7 @@
 
 -(void)changeToSuperGalaxy
 {
+    [_starView setHidden:NO];
     //恒星放大
     CABasicAnimation *animationOne = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
     animationOne.fromValue = [NSNumber numberWithFloat:1.0];
@@ -121,11 +133,10 @@
     
     [self.starView setCenter:CGPointMake(0, 0)];
     
-    
-    
 }
 #pragma mark   ---------CAAnimationDelegate---------
 -(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag{
     [self setNeedsDisplay];
+    
 }
 @end
