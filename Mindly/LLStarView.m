@@ -53,15 +53,6 @@
     }
 }
 
-//-(void)layoutSubviews
-//{
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [_titleLable setFont:[UIFont systemFontOfSize:CGRectGetHeight(self.frame)/8]];
-//        [_titleLable setFrame:CGRectMake(CGRectGetWidth(self.frame)*1/10, CGRectGetHeight(self.frame)/4,CGRectGetWidth(self.frame)*8/10,CGRectGetHeight(self.frame)/2)];
-//
-//    });
-//}
-
 - (void)drawRect:(CGRect)rect {
     CGContextRef ctx=UIGraphicsGetCurrentContext();
     CGContextSetRGBFillColor(ctx, 40.0/255, 155.0/255, 127.0/255, 1.0);
@@ -81,45 +72,43 @@
     }
 }
 
-
-
+#pragma  mark  --------------------星系转换--------------------
 -(void)showNextLevel
 {
-    UIView *showView = [LLShowViewObject sharedInstance].onView;
-    LLGalaxyView *galaxyView = [[LLGalaxyView alloc]initWithFrame:CGRectMake(0,0, CGRectGetWidth(showView.bounds)-20, CGRectGetWidth(showView.bounds)-20) andStar:theStarObject];
-    [galaxyView setCenter:showView.center];
-    galaxyView.moonView.alpha = 0;
-    [showView addSubview:galaxyView];
-    _galaxyAtSide.starView.galaxyNext = galaxyView;
+//    UIView *showView = [LLShowViewObject sharedInstance].onView;
+//    LLGalaxyView *galaxyView = [[LLGalaxyView alloc]initWithFrame:CGRectMake(0,0, CGRectGetWidth(showView.bounds)-20, CGRectGetWidth(showView.bounds)-20) andStar:theStarObject];
+//    [galaxyView setCenter:showView.center];
+//    [showView addSubview:galaxyView];
+//    [galaxyView setGalaxyStage:GalaxyActive];//新的是活跃星系
+
     
-    [(LLMoonView *)self.superview animationStar:self];
+//    _galaxyAtSide.starView.galaxyNext = galaxyView;
     
-    float  r =   sqrt(pow(CGRectGetWidth(showView.frame)/2, 2)+pow(CGRectGetHeight(showView.frame)/2, 2)) +40;
-    [UIView animateWithDuration:0.3 animations:^{
-        [_galaxyAtSide setFrame:CGRectMake(-r, -r,2*r,2*r)];
-        [galaxyView setGalaxyStage:GalaxyActive];
-        galaxyView.moonView.alpha = 1;
-        _galaxyAtSide.moonView.alpha = 0;
-        
-    } completion:^(BOOL finished) {
-        [_galaxyAtSide setGalaxyStage:GalaxySuper];
-        
-    }];
+    [_galaxyAtSide setGalaxyStage:GalaxySuper andWithStar:self];//老得星系变成超星
     
 }
 
 -(void)showHigherLevel
 {
-    UIView *showView = [LLShowViewObject sharedInstance].onView;
     [UIView animateWithDuration:0.3 animations:^{
-        [_galaxyAtCenter setGalaxyStage:GalaxyActive];
-        float r = CGRectGetWidth(showView.frame)-20;
-        [_galaxyAtCenter setFrame:CGRectMake(showView.frame.size.width/2-r/2,showView.frame.size.height/2-r/2, r, r)];
-        [_galaxyNext setGalaxyStage:GalaxyHiden];
+        [_galaxyAtCenter setGalaxyStage:GalaxyActive andWithStar:self];
+        [_galaxyNext setGalaxyStage:GalaxyHiden andWithStar:self];
     } completion:^(BOOL finished) {
         [_galaxyNext removeFromSuperview];
     }];
 }
 
 @end
+
+
+
+
+//-(void)layoutSubviews
+//{
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [_titleLable setFont:[UIFont systemFontOfSize:CGRectGetHeight(self.frame)/8]];
+//        [_titleLable setFrame:CGRectMake(CGRectGetWidth(self.frame)*1/10, CGRectGetHeight(self.frame)/4,CGRectGetWidth(self.frame)*8/10,CGRectGetHeight(self.frame)/2)];
+//
+//    });
+//}
 

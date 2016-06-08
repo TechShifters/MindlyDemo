@@ -8,13 +8,18 @@
 
 #import "LLMoonView.h"
 #import "LLStarView.h"
+#import "LLCircleView.h"
 #import "LLGalaxyView.h"
 #import "LLShowViewObject.h"
+
 #define StarWidth 80
+#define DTime  0.5
+#define DD 10
 @implementation LLMoonView{
     NSMutableArray *starsViewArray;
     float fistStarAngle;
     CGPoint firstStartPoint;
+    MoonState moonStage;
 
     CGPoint startPoint;
     float laseTime;
@@ -51,14 +56,17 @@
     }
     return self;
 }
--(void)setMoonStage:(MoonState) stage;
+-(void)setMoonStage:(MoonState) stage andWithStar:(LLStarView *)starView;
 {
+    moonStage = stage;
     switch (stage) {
         case MoonHiden:{
+            [self animationStar:starView];//旋转动画
             for (int i=0; i<[starsViewArray count]; i++) {
                 LLStarView *starView = starsViewArray[i];
                 starView.stage = StarHiden;
             }
+            
             break;
         }case MoonOut:{
             for (int i=0; i<[starsViewArray count]; i++) {
@@ -72,30 +80,23 @@
             break;
     }
 }
-//-(void)layoutSubviews
-//{
-//    float r = CGRectGetMidX(self.bounds)-StarWidth/2;
-//    float angle = 2*M_PI/[starsViewArray count];
-//    [UIView animateWithDuration:0.3 animations:^{
-//        for (int i=0; i<[starsViewArray count]; i++) {
-//            LLStarView *starView = starsViewArray[i];
-//            [starView setFrame:CGRectMake(
-//                                          CGRectGetMidX(self.bounds)+r*sin(i*angle+fistStarAngle+M_PI/2)-StarWidth/2,
-//                                          CGRectGetMidY(self.bounds)-r*cos(i*angle+fistStarAngle+M_PI/2)-StarWidth/2,
-//                                          StarWidth,
-//                                          StarWidth)];
-//        }
-//    }];
-//    [self setNeedsDisplay];
-//
-//}
 
-- (void)drawRect:(CGRect)rect {
-    CGContextRef ctx=UIGraphicsGetCurrentContext();
-    CGContextSetStrokeColorWithColor(ctx, [UIColor colorWithRed:220.0/255 green:220.0/255 blue:220.0/255 alpha:1].CGColor);
-    CGContextAddArc(ctx, CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds), CGRectGetMidX(self.bounds)-StarWidth/2, 0, 2*M_PI, 0);
-    CGContextStrokePath(ctx);
-}
+//- (void)drawRect:(CGRect)rect {
+////    if (!isShow) {
+////        return;
+////    }
+//    if (moonStage==MoonHiden) {
+//        CGContextRef ctx=UIGraphicsGetCurrentContext();
+//        CGContextSetStrokeColorWithColor(ctx, [UIColor colorWithRed:220.0/255 green:220.0/255 blue:220.0/255 alpha:1].CGColor);
+//        CGContextAddArc(ctx, circleForLine.x, circleForLine.y,radiusForLine, 0, 2*M_PI, 0);
+//        CGContextStrokePath(ctx);
+//    }else{
+//        CGContextRef ctx=UIGraphicsGetCurrentContext();
+//        CGContextSetStrokeColorWithColor(ctx, [UIColor colorWithRed:220.0/255 green:220.0/255 blue:220.0/255 alpha:1].CGColor);
+//        CGContextAddArc(ctx, CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds), CGRectGetMidX(self.bounds)-StarWidth/2, 0, 2*M_PI, 0);
+//        CGContextStrokePath(ctx);
+//    }
+//}
 
 #pragma mark ----------------截取手势-----------------------
 
@@ -185,35 +186,6 @@
 }
 
 /**
- * @brief 放大同时    转动卫星
- */
--(void)animationStar:(LLStarView *) starView {
-    UIView *showView = [LLShowViewObject sharedInstance].onView;
-    
-    float angle = [self calculateAngleWithPoint:starView.center];
-    float endAngel = [self calculateAngleWithPoint:CGPointMake(self.frame.size.width/2+showView.frame.size.width/2, self.frame.size.height/2+showView.frame.size.height/2)];
-    
-//    [self animationAngle:endAngel-angle  duration:0.3 clockwise:(angle <endAngel&&angle>-M_PI+endAngel)];
-    [self animationWithAngle:endAngel-angle ];
-}
-
-
-/**
- * @brief 根据角度  时间  顺时针还是逆时针  转动
- */
--(void)animationWithAngle:(float)animationDangle {
-    float dangle = 2*M_PI/[starsViewArray count];
-    
-    for (int i=0; i<[starsViewArray count]; i++) {
-        LLStarView *starView = starsViewArray[i];
-        float angle = fistStarAngle + dangle*i;
-        [starView setCenter:[self calculatePointWithAngle:angle+animationDangle]];
-    }
-    fistStarAngle = fistStarAngle+animationDangle;
-}
-
-
-/**
  * @brief 根据角度算坐标
  */
 -(CGPoint)calculatePointWithAngle:(float)angle
@@ -229,4 +201,129 @@
 {
     return  (point.y>self.center.y?1:-1)*acos((point.x-self.center.x)/sqrt(pow((point.x-self.center.x), 2)+pow((point.y-self.center.y), 2))) ;
 }
+
+
+#pragma mark ----------------星系转换-----------------------
+
+#pragma mark 卫星旋转放大
+
+/**
+ * @brief 放大同时    转动所有卫星
+ */
+-(void)animationStar:(LLStarView *) starView {
+    [self moveCircleView];
+    float angle = [self calculateAngleWithPoint:starView.center];
+    float endAngel = [self calculateAngleWithPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
+    [self animationWithAngle:endAngel-angle ];
+}
+
+
+/**
+ * @brief 根据角度  时间  顺时针还是逆时针  转动
+ */
+-(void)animationWithAngle:(float)animationDangle {
+    float dangle = 2*M_PI/[starsViewArray count];
+    for (int i=0; i<[starsViewArray count]; i++) {
+        LLStarView *starView = starsViewArray[i];
+        float angle = fistStarAngle + dangle*i;
+        [self animationEveryStar:starView startAngle:angle endAngle:angle+animationDangle];
+    }
+    fistStarAngle = fistStarAngle+animationDangle;
+}
+
+-(void)animationEveryStar:(LLStarView *) starView  startAngle:(float)startAngle endAngle:(float) endAngle
+{
+    //卫星放大
+    CABasicAnimation *animationOne = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    animationOne.fromValue = [NSNumber numberWithFloat:1.0];
+    animationOne.toValue = [NSNumber numberWithFloat:1.5];
+    //移动
+    CAKeyframeAnimation *animationTwo = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+    animationTwo.values = [self getPathArrayWithStartAngle:startAngle endAngle:endAngle];
+    //组合
+    CAAnimationGroup *group = [CAAnimationGroup animation];
+    group.repeatCount = 1;
+    group.duration = DTime;
+    group.removedOnCompletion = NO;
+    group.fillMode = kCAFillModeForwards;
+    group.animations=@[animationOne,animationTwo];
+//    group.delegate = self;
+    [starView.layer addAnimation:group forKey:@"group"];
+}
+
+-(NSMutableArray *)getPathArrayWithStartAngle:(float)startAngle endAngle:(float) endAngle
+{
+    //计算移动经过的坐标
+    NSMutableArray *array = [[NSMutableArray alloc]init];
+    for (int i=0; i<=DTime*DD;i++) {
+        CGPoint center = CGPointMake(self.frame.size.width/2 - i*self.frame.size.width/(2*DTime*DD), self.frame.size.height/2- i*self.frame.size.height/(2*DTime*DD));
+        float dRadius = sqrt(pow((self.center.x), 2)+pow((self.center.y), 2)) -(CGRectGetMidX(self.bounds)-StarWidth/2);
+        float radius = CGRectGetMidX(self.bounds)-StarWidth/2+i*dRadius/(DTime*DD);
+        CGPoint pathPoint = [self calculatePointWithAngle:startAngle+i*(endAngle-startAngle)/(DTime*DD) andRadius:radius andCenter:center];
+        [array addObject:[NSValue valueWithCGPoint:pathPoint]];
+    }
+    return array;
+}
+
+/**
+ * @brief 根据角度 圆心  半径  算坐标
+ */
+-(CGPoint)calculatePointWithAngle:(float)angle andRadius:(float) r andCenter:(CGPoint)center
+{
+    return  CGPointMake(center.x+cos(angle)*r, center.y+sin(angle)*r);
+}
+
+
+-(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    LLCircleView *circleView = ((LLGalaxyView *)self.superview).circleView;
+    [circleView setHidden:YES];
+
+}
+
+
+#pragma mark 放大圆环
+
+-(void)moveCircleView
+{
+    LLCircleView *circleView = ((LLGalaxyView *)self.superview).circleView;
+    
+    //恒星放大
+    CABasicAnimation *animationOne = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    animationOne.fromValue = [NSNumber numberWithFloat:1.0];
+    animationOne.toValue = [NSNumber numberWithFloat:2.8];
+    // 移动
+    CABasicAnimation *animationTwo = [CABasicAnimation animationWithKeyPath:@"position"];
+    
+    animationTwo.fromValue = [NSValue valueWithCGPoint:circleView.layer.position];
+    animationTwo.toValue = [NSValue valueWithCGPoint:CGPointMake(0,0)];
+    //组合
+    CAAnimationGroup *group = [CAAnimationGroup animation];
+    group.repeatCount = 1;
+    group.duration = 0.5;
+    group.removedOnCompletion = NO;
+    group.fillMode = kCAFillModeForwards;
+    group.animations=@[animationOne,animationTwo];
+    group.delegate = self;
+    [circleView.layer addAnimation:group forKey:@"group"];
+}
+
 @end
+
+//-(void)layoutSubviews
+//{
+//    float r = CGRectGetMidX(self.bounds)-StarWidth/2;
+//    float angle = 2*M_PI/[starsViewArray count];
+//    [UIView animateWithDuration:0.3 animations:^{
+//        for (int i=0; i<[starsViewArray count]; i++) {
+//            LLStarView *starView = starsViewArray[i];
+//            [starView setFrame:CGRectMake(
+//                                          CGRectGetMidX(self.bounds)+r*sin(i*angle+fistStarAngle+M_PI/2)-StarWidth/2,
+//                                          CGRectGetMidY(self.bounds)-r*cos(i*angle+fistStarAngle+M_PI/2)-StarWidth/2,
+//                                          StarWidth,
+//                                          StarWidth)];
+//        }
+//    }];
+//    [self setNeedsDisplay];
+//
+//}

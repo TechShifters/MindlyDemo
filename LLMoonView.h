@@ -18,6 +18,5 @@ typedef enum {
 @interface LLMoonView : UIView
 -(LLMoonView *)initWithFrame:(CGRect)frame andAry:(NSMutableArray*) starsArray atGalaxy:(LLGalaxyView *) atGalaxy;
 
--(void)setMoonStage:(MoonState) stage;
--(void)animationStar:(LLStarView *) starView;
+-(void)setMoonStage:(MoonState) stage andWithStar:(LLStarView *)starView;
 @end

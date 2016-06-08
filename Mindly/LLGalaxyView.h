@@ -15,13 +15,16 @@ typedef enum {
 
 @class LLMoonView;
 @class LLStarView;
+@class LLCircleView;
+
 @class LLStarObject;
 
 @interface LLGalaxyView : UIView
 
 @property (nonatomic,strong) LLStarView *starView;
 @property (nonatomic,strong) LLMoonView *moonView;
+@property (nonatomic,strong) LLCircleView *circleView;
 
 -(LLGalaxyView *)initWithFrame:(CGRect)frame andStar:(LLStarObject *)starObject;
--(void)setGalaxyStage:(GalaxyState) stage;
+-(void)setGalaxyStage:(GalaxyState) stage  andWithStar:(LLStarView *) starView;
 @end

@@ -33,16 +33,9 @@
 
 -(void)addStar
 {
-    
-    float r = self.view.frame.size.width-20;
-    galaxyView = [[LLGalaxyView alloc]initWithFrame:
-                  CGRectMake(self.view.frame.size.width/2-r/2,
-                             self.view.frame.size.height/2-r/2,
-                             r,
-                             r)
+    galaxyView = [[LLGalaxyView alloc]initWithFrame:self.view.frame
                   andStar:[self getData]];
-    
-    [galaxyView setGalaxyStage:GalaxyActive];
+    [galaxyView setGalaxyStage:GalaxyActive andWithStar:nil];
     [self.view addSubview:galaxyView];
     
 }

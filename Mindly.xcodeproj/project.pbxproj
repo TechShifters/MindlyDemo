@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FEEAC6871D07C0A300A28A01 /* LLCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEAC6861D07C0A300A28A01 /* LLCircleView.m */; };
 		FEEE6D2C1CFFDCDE0095D047 /* LLShowViewObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEE6D2B1CFFDCDE0095D047 /* LLShowViewObject.m */; };
 		FEF599041CF681EA003E3D6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF599031CF681EA003E3D6F /* main.m */; };
 		FEF599071CF681EA003E3D6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF599061CF681EA003E3D6F /* AppDelegate.m */; };
@@ -41,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FEEAC6851D07C0A300A28A01 /* LLCircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLCircleView.h; sourceTree = "<group>"; };
+		FEEAC6861D07C0A300A28A01 /* LLCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLCircleView.m; sourceTree = "<group>"; };
 		FEEE6D2A1CFFDCDE0095D047 /* LLShowViewObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLShowViewObject.h; sourceTree = "<group>"; };
 		FEEE6D2B1CFFDCDE0095D047 /* LLShowViewObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLShowViewObject.m; sourceTree = "<group>"; };
 		FEF598FF1CF681EA003E3D6F /* Mindly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mindly.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -168,6 +171,8 @@
 				FEF599361CF68378003E3D6F /* LLMoonView.m */,
 				FEF599441CF6A275003E3D6F /* LLGalaxyView.h */,
 				FEF599451CF6A275003E3D6F /* LLGalaxyView.m */,
+				FEEAC6851D07C0A300A28A01 /* LLCircleView.h */,
+				FEEAC6861D07C0A300A28A01 /* LLCircleView.m */,
 			);
 			name = PlanetaryAnimation;
 			sourceTree = "<group>";
@@ -320,6 +325,7 @@
 				FEF5990A1CF681EA003E3D6F /* ViewController.m in Sources */,
 				FEF599071CF681EA003E3D6F /* AppDelegate.m in Sources */,
 				FEF599461CF6A275003E3D6F /* LLGalaxyView.m in Sources */,
+				FEEAC6871D07C0A300A28A01 /* LLCircleView.m in Sources */,
 				FEF599041CF681EA003E3D6F /* main.m in Sources */,
 				FEF5993A1CF683AB003E3D6F /* LLStarView.m in Sources */,
 				FEF599371CF68378003E3D6F /* LLMoonView.m in Sources */,
