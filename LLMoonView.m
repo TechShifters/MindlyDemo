@@ -276,7 +276,7 @@
 -(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
     if (moonStage == MoonHiden) {
-        //自己变为超星系   隐藏圆   隐藏卫星   显示下个星系的恒星
+        //自己变为超星系   隐藏圆   隐藏卫星    显示下个星系的恒星
         LLCircleView *circleView = ((LLGalaxyView *)self.superview).circleView;
         [circleView setHidden:YES];
         [self setHidden:YES];
