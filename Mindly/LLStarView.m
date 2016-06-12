@@ -41,7 +41,6 @@
 {
     switch (_stage) {
         case StarSuperCenter:{
-            [self showHigherLevel];
             break;
         }case StarOut:{
             [self showNextLevel];
@@ -82,20 +81,10 @@
     UIView *showView = [LLShowViewObject sharedInstance].onView;
     LLGalaxyView *galaxyView = [[LLGalaxyView alloc]initWithFrame:showView.frame andStar:theStarObject];
     [showView addSubview:galaxyView];
-    [galaxyView setGalaxyStage:GalaxyActive andWithStar:nil];
+    [galaxyView setGalaxyStage:GalaxyActiveShow andWithStar:self];
     galaxyView.starView.galaxyAtSide = self.galaxyAtSide;
     _galaxyAtSide.starView.galaxyNext = galaxyView;
 
-}
-
--(void)showHigherLevel
-{
-    [UIView animateWithDuration:0.3 animations:^{
-        [_galaxyAtCenter setGalaxyStage:GalaxyActive andWithStar:self];
-        [_galaxyNext setGalaxyStage:GalaxyHiden andWithStar:self];
-    } completion:^(BOOL finished) {
-        [_galaxyNext removeFromSuperview];
-    }];
 }
 
 @end

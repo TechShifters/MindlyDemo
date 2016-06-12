@@ -10,6 +10,8 @@
 typedef enum {
     MoonHiden = 0,
     MoonOut= 1,
+    MoonReturn =2,
+    MoonRemove = 3,
 }MoonState;
 
 @class LLGalaxyView;
@@ -19,4 +21,5 @@ typedef enum {
 -(LLMoonView *)initWithFrame:(CGRect)frame andAry:(NSMutableArray*) starsArray atGalaxy:(LLGalaxyView *) atGalaxy;
 
 -(void)setMoonStage:(MoonState) stage andWithStar:(LLStarView *)starView andIsMove:(BOOL) isMove;
+-(void)removeMoonView;
 @end

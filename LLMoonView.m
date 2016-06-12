@@ -80,6 +80,17 @@
                 [self showMoonView];
             }
             break;
+        }case MoonReturn:{
+            for (int i=0; i<[starsViewArray count]; i++) {
+                LLStarView *starView = starsViewArray[i];
+                starView.stage = StarOut;
+            }
+            self.alpha = 1;
+            [self setHidden:NO];
+
+            [self returnCircleView];//圆环回位
+            [self returnAnimationStar:starView];
+            break;
         }default:
             break;
     }
@@ -264,17 +275,107 @@
 
 -(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
-    //自己变为超星系   隐藏圆   隐藏卫星   显示下个星系的恒星
-    LLCircleView *circleView = ((LLGalaxyView *)self.superview).circleView;
-    [circleView setHidden:YES];
-    [self setHidden:YES];
-    
-    [((LLGalaxyView *)self.superview).starView.galaxyNext.starView setHidden:NO];
+    if (moonStage == MoonHiden) {
+        //自己变为超星系   隐藏圆   隐藏卫星   显示下个星系的恒星
+        LLCircleView *circleView = ((LLGalaxyView *)self.superview).circleView;
+        [circleView setHidden:YES];
+        [self setHidden:YES];
+        
+        [((LLGalaxyView *)self.superview).starView.galaxyNext.starView setHidden:NO];
+    }else if (moonStage == MoonReturn){
+        [self returnMoon];
+        [((LLGalaxyView *)self.superview).starView.galaxyAtSide showLine];//显示上一星系的线
+    }else if (moonStage == MoonRemove){
+        [self.superview removeFromSuperview];
+    }
 
+}
+#pragma mark 超星系回退
+
+/**
+ * @brief 放小同时    转动所有卫星
+ */
+-(void)returnAnimationStar:(LLStarView *) starView {
+    int i;
+    for (i = 0; i<[starsViewArray count]; i++) {
+        LLStarView *moonStar  = starsViewArray[i];
+        if ([starView isEqual:moonStar]) {
+            break;
+        }
+    }
+    float angle = [self calculateAngleWithPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
+    float endAngel= -M_PI/2+i*(2*M_PI/[starsViewArray count]);
+    [self returnAnimationWithAngle:endAngel-angle ];
 }
 
 
-#pragma mark 放大圆环
+/**
+ * @brief 根据角度  时间  顺时针还是逆时针  转动
+ */
+-(void)returnAnimationWithAngle:(float)animationDangle {
+    float dangle = 2*M_PI/[starsViewArray count];
+    for (int i=0; i<[starsViewArray count]; i++) {
+        LLStarView *starView = starsViewArray[i];
+        float angle = fistStarAngle + dangle*i;
+        [self returnAnimationEveryStar:starView startAngle:angle endAngle:angle+animationDangle];
+    }
+    fistStarAngle = fistStarAngle+animationDangle;
+}
+
+-(void)returnAnimationEveryStar:(LLStarView *) starView  startAngle:(float)startAngle endAngle:(float) endAngle
+{
+    //卫星放大
+    CABasicAnimation *animationOne = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    animationOne.fromValue = [NSNumber numberWithFloat:1.5];
+    animationOne.toValue = [NSNumber numberWithFloat:1];
+    //移动
+    CAKeyframeAnimation *animationTwo = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+    animationTwo.values = [self returnGetPathArrayWithStartAngle:startAngle endAngle:endAngle];
+    //组合
+    CAAnimationGroup *group = [CAAnimationGroup animation];
+    group.repeatCount = 1;
+    group.duration = DTime;
+    group.removedOnCompletion = NO;
+    group.fillMode = kCAFillModeForwards;
+    group.animations=@[animationOne,animationTwo];
+    [starView.layer addAnimation:group forKey:@"group"];
+}
+
+-(NSMutableArray *)returnGetPathArrayWithStartAngle:(float)startAngle endAngle:(float) endAngle
+{
+    //计算移动经过的坐标
+    NSMutableArray *array = [[NSMutableArray alloc]init];
+    for (int i=0; i<=DTime*DD;i++) {
+        CGPoint center = CGPointMake( i*self.frame.size.width/(2*DTime*DD),i*self.frame.size.height/(2*DTime*DD));
+        float dRadius = sqrt(pow((self.center.x), 2)+pow((self.center.y), 2)) -(CGRectGetMidX(self.bounds)-StarWidth/2);
+        float radius = sqrt(pow((self.center.x), 2)+pow((self.center.y), 2))-i*dRadius/(DTime*DD);
+        CGPoint pathPoint = [self calculatePointWithAngle:startAngle+i*(endAngle-startAngle)/(DTime*DD) andRadius:radius andCenter:center];
+        [array addObject:[NSValue valueWithCGPoint:pathPoint]];
+    }
+    return array;
+}
+
+
+
+-(void)returnMoon
+{
+    fistStarAngle = -M_PI/2;
+    if ([starsViewArray count]!=0) {
+        float r = CGRectGetMidX(self.bounds)-StarWidth/2;
+        float angle = 2*M_PI/[starsViewArray count];
+        for (int i=0; i<[starsViewArray count]; i++) {
+            LLStarView *moonStar  = starsViewArray[i];
+            [moonStar setFrame:CGRectMake(
+                                         CGRectGetMidX(self.bounds)+r*sin(i*angle)-StarWidth/2,
+                                         CGRectGetMidY(self.bounds)-r*cos(i*angle)-StarWidth/2,
+                                         StarWidth,
+                                          StarWidth)];
+        }
+    }
+}
+
+
+#pragma mark 圆环
 
 -(void)moveCircleView
 {
@@ -289,6 +390,30 @@
     
     animationTwo.fromValue = [NSValue valueWithCGPoint:circleView.layer.position];
     animationTwo.toValue = [NSValue valueWithCGPoint:CGPointMake(0,0)];
+    //组合
+    CAAnimationGroup *group = [CAAnimationGroup animation];
+    group.repeatCount = 1;
+    group.duration = 0.5;
+    group.removedOnCompletion = NO;
+    group.fillMode = kCAFillModeForwards;
+    group.animations=@[animationOne,animationTwo];
+    group.delegate = self;
+    [circleView.layer addAnimation:group forKey:@"group"];
+}
+
+-(void)returnCircleView
+{
+    LLCircleView *circleView = ((LLGalaxyView *)self.superview).circleView;
+    [circleView setHidden:NO];
+    //恒星放大
+    CABasicAnimation *animationOne = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    animationOne.fromValue = [NSNumber numberWithFloat:2.8];
+    animationOne.toValue = [NSNumber numberWithFloat:1.0];
+    // 移动
+    CABasicAnimation *animationTwo = [CABasicAnimation animationWithKeyPath:@"position"];
+    
+    animationTwo.fromValue = [NSValue valueWithCGPoint:CGPointMake(0,0)];
+    animationTwo.toValue = [NSValue valueWithCGPoint:circleView.layer.position];
     //组合
     CAAnimationGroup *group = [CAAnimationGroup animation];
     group.repeatCount = 1;
@@ -327,6 +452,32 @@
 
 }
 
+#pragma mark 现星系消失动画
+
+-(void)removeMoonView
+{
+    //恒星放大
+    CABasicAnimation *animationOne = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    animationOne.fromValue = [NSNumber numberWithFloat:1];
+    animationOne.toValue = [NSNumber numberWithFloat:0.5];
+    // 移动
+    CABasicAnimation *animationTwo = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    
+    animationTwo.fromValue = @1.0;
+    animationTwo.toValue = @0.2;
+    //组合
+    CAAnimationGroup *group = [CAAnimationGroup animation];
+    group.repeatCount = 1;
+    group.duration = 0.5;
+    group.removedOnCompletion = NO;
+    group.fillMode = kCAFillModeForwards;
+    group.animations=@[animationOne,animationTwo];
+    group.delegate = self;
+    [self.layer addAnimation:group forKey:@"group"];
+    
+    LLCircleView *circleView = ((LLGalaxyView *)self.superview).circleView;
+    [circleView.layer addAnimation:group forKey:@"group"];
+}
 @end
 
 

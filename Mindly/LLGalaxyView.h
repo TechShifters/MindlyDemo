@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 typedef enum {
     GalaxySuper = 0,
-    GalaxyActive = 1,
-    GalaxyHiden = 2
+    GalaxyActiveShow = 1,
+    GalaxyActiveReturn = 2,
+    GalaxyHiden = 3
 }GalaxyState;
 
 @class LLMoonView;
@@ -21,6 +22,7 @@ typedef enum {
 
 @interface LLGalaxyView : UIView
 
+@property (nonatomic,strong) LLStarView *superStarView;
 @property (nonatomic,strong) LLStarView *starView;
 @property (nonatomic,strong) LLMoonView *moonView;
 @property (nonatomic,strong) LLCircleView *circleView;
@@ -28,4 +30,5 @@ typedef enum {
 -(LLGalaxyView *)initWithFrame:(CGRect)frame andStar:(LLStarObject *)starObject;
 -(void)setGalaxyStage:(GalaxyState) stage  andWithStar:(LLStarView *) starView;
 -(void)hideLine;
+-(void)showLine;
 @end

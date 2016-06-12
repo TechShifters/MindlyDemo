@@ -39,11 +39,25 @@
         _moonView = [[LLMoonView alloc]initWithFrame:self.bounds andAry:starObject.nextStars atGalaxy:self];
         [self addSubview:_moonView];
         
+        UIButton *superStarBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 80, 80)];
+        [superStarBtn setBackgroundColor:[UIColor clearColor]];
+        [superStarBtn addTarget:self action:@selector(showSubGalaxy) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:superStarBtn];
     }
     return self;
 
 }
+-(void)showSubGalaxy
+{
+    if (_superStarView) {
+        [_starView.galaxyAtSide setGalaxyStage:GalaxyActiveReturn andWithStar:_superStarView];//上一星系激活
+        
+        [_starView removeFromSuperview];
+        [_moonView setMoonStage:MoonRemove andWithStar:nil  andIsMove:YES];
+        [_moonView removeMoonView];
 
+    }
+}
 /**
  *   @brief  修改其大小
  */
@@ -78,29 +92,43 @@
     isHidenLine = YES;
     [self setNeedsDisplay];
 }
+-(void)showLine
+{
+    isHidenLine = NO;
+    [self setNeedsDisplay];
+}
+
 -(void)setGalaxyStage:(GalaxyState) stage  andWithStar:(LLStarView *) starView;
 {
     switch (stage) {
         case GalaxySuper:{
             isHidenLine = NO;
-            [self changeToSuperGalaxy];
             [_starView.galaxyAtSide hideLine];//隐藏上个星系的线
+            
             _starView.stage = StarSuperCenter;
+            [self changeToSuperGalaxy];
             [_moonView setMoonStage:MoonHiden andWithStar:starView andIsMove:NO];
             break;
             
-        }case GalaxyActive:{
+        }case GalaxyActiveShow:{
             isHidenLine = YES;
             [self setNeedsDisplay];
             
             _starView.stage = StarCenter;
-            
+            _superStarView = starView;
             if (self.superview.subviews.count>1) {
                 [_starView setHidden:YES];
                 [_moonView setMoonStage:MoonOut andWithStar:starView  andIsMove:YES];
             }else{
                 [_moonView setMoonStage:MoonOut andWithStar:starView  andIsMove:NO];
             }
+            break;
+        }case GalaxyActiveReturn:{
+            [self hideLine];
+            
+            _starView.stage = StarCenter;
+            [_moonView setMoonStage:MoonReturn andWithStar:starView  andIsMove:YES];
+            [self changeToActiveGalaxy];
             break;
         }case GalaxyHiden:{
             self.alpha = 0;
@@ -110,6 +138,7 @@
     }
 }
 
+#pragma mark   -------------行星移动-------------
 -(void)changeToSuperGalaxy
 {
     [_starView setHidden:NO];
@@ -130,10 +159,31 @@
     group.animations=@[animationOne,animationTwo];
     group.delegate = self;
     [self.starView.layer addAnimation:group forKey:@"group"];
-    
-    [self.starView setCenter:CGPointMake(0, 0)];
-    
 }
+
+-(void)changeToActiveGalaxy
+{
+    [_starView setHidden:NO];
+    //恒星放大
+    CABasicAnimation *animationOne = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    animationOne.fromValue = [NSNumber numberWithFloat:1.5];
+    animationOne.toValue = [NSNumber numberWithFloat:1.0];
+    // 移动
+    CABasicAnimation *animationTwo = [CABasicAnimation animationWithKeyPath:@"position"];
+    animationTwo.fromValue = [NSValue valueWithCGPoint:CGPointMake(0,0)];
+    animationTwo.toValue = [NSValue valueWithCGPoint:_starView.layer.position];
+    //组合
+    CAAnimationGroup *group = [CAAnimationGroup animation];
+    group.repeatCount = 1;
+    group.duration = 0.5;
+    group.removedOnCompletion = NO;
+    group.fillMode = kCAFillModeForwards;
+    group.animations=@[animationOne,animationTwo];
+    group.delegate = self;
+    [self.starView.layer addAnimation:group forKey:@"group"];
+}
+
+
 #pragma mark   ---------CAAnimationDelegate---------
 -(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag{
     [self setNeedsDisplay];
