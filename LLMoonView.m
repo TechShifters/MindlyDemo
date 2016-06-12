@@ -265,7 +265,7 @@
 }
 
 /**
- * @brief 根据角度 圆心  半径  算坐标
+ * @brief 根据角度 圆心  半径   算坐标
  */
 -(CGPoint)calculatePointWithAngle:(float)angle andRadius:(float) r andCenter:(CGPoint)center
 {
