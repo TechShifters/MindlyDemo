@@ -10,11 +10,8 @@
 
 #import "LLStarObject.h"
 #import "LLGalaxyView.h"
-#import "LLShowViewObject.h"
 
-@interface ViewController (){
-    LLGalaxyView *galaxyView;
-}
+@interface ViewController ()
 
 @end
 
@@ -33,7 +30,7 @@
 
 -(void)addStar
 {
-    galaxyView = [[LLGalaxyView alloc]initWithFrame:self.view.frame
+     LLGalaxyView *galaxyView = [[LLGalaxyView alloc]initWithFrame:self.view.frame
                   andStar:[self getData]];
     [galaxyView setGalaxyStage:GalaxyActiveShow andWithStar:nil];
     [self.view addSubview:galaxyView];
@@ -41,7 +38,6 @@
 }
 -(LLStarObject *)getData
 {
-    [LLShowViewObject sharedInstance].onView = self.view;
     NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"DataList" ofType:@"plist"];
     NSDictionary *dataDic = [NSDictionary dictionaryWithContentsOfFile:plistPath];
     return  [LLStarObject changeToStarFromDic:dataDic];

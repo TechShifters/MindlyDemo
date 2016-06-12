@@ -16,15 +16,13 @@
         [self setBackgroundColor:[UIColor clearColor]];
     }
     return self;
-    
 }
 
-
 - (void)drawRect:(CGRect)rect {
+    //画灰色圆圈
     CGContextRef ctx=UIGraphicsGetCurrentContext();
     CGContextSetStrokeColorWithColor(ctx, [UIColor colorWithRed:220.0/255 green:220.0/255 blue:220.0/255 alpha:0.5].CGColor);
     CGContextAddArc(ctx, CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds), CGRectGetMidX(self.bounds), 0, 2*M_PI, 0);
     CGContextStrokePath(ctx);
 }
-
 @end

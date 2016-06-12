@@ -13,7 +13,6 @@
 #import "LLGalaxyView.h"
 #import "LLMoonView.h"
 
-#import "LLShowViewObject.h"
 @implementation LLStarView{
     LLStarObject *theStarObject;
 }
@@ -78,7 +77,7 @@
     [_galaxyAtSide setGalaxyStage:GalaxySuper andWithStar:self];
     
     //新的是活跃星系
-    UIView *showView = [LLShowViewObject sharedInstance].onView;
+    UIView *showView = self.superview.superview;
     LLGalaxyView *galaxyView = [[LLGalaxyView alloc]initWithFrame:showView.frame andStar:theStarObject];
     [showView addSubview:galaxyView];
     [galaxyView setGalaxyStage:GalaxyActiveShow andWithStar:self];

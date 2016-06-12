@@ -10,7 +10,6 @@
 #import "LLStarView.h"
 #import "LLCircleView.h"
 #import "LLGalaxyView.h"
-#import "LLShowViewObject.h"
 
 #define StarWidth 80
 #define DTime  0.5

@@ -14,7 +14,16 @@
 			<key>image</key>
 			<string></string>
 			<key>nextLevel</key>
-			<array/>
+			<array>
+				<dict>
+					<key>title</key>
+					<string>华盛顿</string>
+					<key>image</key>
+					<string></string>
+					<key>nextLevel</key>
+					<array/>
+				</dict>
+			</array>
 		</dict>
 		<dict>
 			<key>title</key>

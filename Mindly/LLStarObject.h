@@ -13,7 +13,7 @@
 @property (nonatomic,strong) NSString *title;
 @property (nonatomic,strong) NSString *image;
 @property (nonatomic,strong) UIColor *color;
-
 @property (nonatomic,strong) NSMutableArray *nextStars;
+
 +(LLStarObject *)changeToStarFromDic:(NSDictionary*) dic;
 @end

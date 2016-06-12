@@ -12,7 +12,6 @@
 #import "LLStarView.h"
 #import "LLMoonView.h"
 #import "LLStarObject.h"
-#import "LLShowViewObject.h"
 @implementation LLGalaxyView{
     LLStarObject *starOb;
     BOOL isHidenLine;
@@ -43,6 +42,8 @@
         [superStarBtn setBackgroundColor:[UIColor clearColor]];
         [superStarBtn addTarget:self action:@selector(showSubGalaxy) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:superStarBtn];
+        
+
     }
     return self;
 
