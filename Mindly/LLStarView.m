@@ -9,8 +9,8 @@
 
 #import "LLStarObject.h"
 
-#import "LLStarView.h"
 #import "LLGalaxyView.h"
+#import "LLStarView.h"
 #import "LLMoonView.h"
 
 @implementation LLStarView{
@@ -20,6 +20,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        [self setBackgroundColor:[UIColor clearColor]];
         _titleLable = [[UILabel alloc]init];
         [_titleLable setTextColor:[UIColor whiteColor]];
         [_titleLable setTextAlignment:NSTextAlignmentCenter];
@@ -41,8 +42,11 @@
     switch (_stage) {
         case StarSuperCenter:{
             break;
+        }case StarCenter:{
+            break;
         }case StarOut:{
-            [self showNextLevel];
+            LLGalaxyView *galaxy = (LLGalaxyView *)self.superview.superview;
+            [galaxy showNextGalaxyWith:self andStartObject:theStarObject];//显示下个星系
             break;
         }case StarHiden:{
             break;
@@ -66,37 +70,6 @@
         self.layer.contents = (__bridge id _Nullable)([UIImage imageNamed:starObject.image].CGImage);
     }else if (starObject.title){
         [_titleLable setText:starObject.title];
-        [self setBackgroundColor:[UIColor clearColor]];
     }
 }
-
-#pragma  mark  --------------------星系转换--------------------
--(void)showNextLevel
-{
-    //老星系变成超星
-    [_galaxyAtSide setGalaxyStage:GalaxySuper andWithStar:self];
-    
-    //新的是活跃星系
-    UIView *showView = self.superview.superview;
-    LLGalaxyView *galaxyView = [[LLGalaxyView alloc]initWithFrame:showView.frame andStar:theStarObject];
-    [showView addSubview:galaxyView];
-    [galaxyView setGalaxyStage:GalaxyActiveShow andWithStar:self];
-    galaxyView.starView.galaxyAtSide = self.galaxyAtSide;
-    _galaxyAtSide.starView.galaxyNext = galaxyView;
-
-}
-
 @end
-
-
-
-
-//-(void)layoutSubviews
-//{
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [_titleLable setFont:[UIFont systemFontOfSize:CGRectGetHeight(self.frame)/8]];
-//        [_titleLable setFrame:CGRectMake(CGRectGetWidth(self.frame)*1/10, CGRectGetHeight(self.frame)/4,CGRectGetWidth(self.frame)*8/10,CGRectGetHeight(self.frame)/2)];
-//
-//    });
-//}
-

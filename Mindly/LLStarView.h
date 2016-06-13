@@ -18,12 +18,10 @@ typedef enum {
 @class LLGalaxyView;
 
 @interface LLStarView : UIView
-@property (nonatomic,strong) UILabel *titleLable;
-@property (nonatomic,assign) StarState stage;
-
 @property (nonatomic,weak) LLGalaxyView *galaxyAtSide;
-@property (nonatomic,weak) LLGalaxyView *galaxyAtCenter;
 @property (nonatomic,weak) LLGalaxyView *galaxyNext;
 
+@property (nonatomic,assign) StarState stage;
+@property (nonatomic,strong) UILabel *titleLable;
 -(void)setStarObject:(LLStarObject *)starObject;
 @end

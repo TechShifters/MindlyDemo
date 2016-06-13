@@ -29,6 +29,7 @@ typedef enum {
 
 -(LLGalaxyView *)initWithFrame:(CGRect)frame andStar:(LLStarObject *)starObject;
 -(void)setGalaxyStage:(GalaxyState) stage  andWithStar:(LLStarView *) starView;
+-(void)showNextGalaxyWith:(LLStarView *)starView andStartObject:(LLStarObject*)theStarObject;
 -(void)hideLine;
 -(void)showLine;
 @end

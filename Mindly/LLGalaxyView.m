@@ -31,7 +31,6 @@
         //加恒星
         _starView = [[LLStarView alloc]initWithFrame:CGRectMake(CGRectGetMidX(self.bounds)-CGRectGetWidth(self.bounds)/6,CGRectGetMidY(self.bounds)-CGRectGetWidth(self.bounds)/6, CGRectGetWidth(self.bounds)/3,CGRectGetWidth(self.bounds)/3)];
         [_starView setStarObject:starObject];
-        _starView.galaxyAtCenter = self;
         [self addSubview:_starView];
 
         //加卫星
@@ -48,6 +47,23 @@
     return self;
 
 }
+#pragma  mark  --------------------星系转换--------------------
+
+-(void)showNextGalaxyWith:(LLStarView *)starView andStartObject:(LLStarObject*)theStarObject
+{
+    //老星系变成超星
+    [starView.galaxyAtSide setGalaxyStage:GalaxySuper andWithStar:starView];
+    
+    //新的是活跃星系
+    LLGalaxyView *galaxyView = [[LLGalaxyView alloc]initWithFrame:self.frame andStar:theStarObject];
+    [self addSubview:galaxyView];
+    [galaxyView setGalaxyStage:GalaxyActiveShow andWithStar:starView];
+    galaxyView.starView.galaxyAtSide = self;
+    
+    starView.galaxyAtSide.starView.galaxyNext = galaxyView;
+
+}
+
 -(void)showSubGalaxy
 {
     if (_superStarView) {
