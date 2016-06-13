@@ -22,6 +22,9 @@ typedef enum {
 
 @interface LLGalaxyView : UIView
 
+@property (nonatomic,weak) LLGalaxyView *galaxySuper;
+@property (nonatomic,weak) LLGalaxyView *galaxyNext;
+
 @property (nonatomic,strong) LLStarView *superStarView;
 @property (nonatomic,strong) LLStarView *starView;
 @property (nonatomic,strong) LLMoonView *moonView;

@@ -47,7 +47,6 @@
                                                    StarWidth,
                                                    StarWidth)];
                 [starView setStarObject:moonStar];
-                starView.galaxySuper = atGalaxy;
                 [self addSubview:starView];
                 [starsViewArray addObject:starView];
             }
@@ -280,10 +279,10 @@
         [circleView setHidden:YES];
         [self setHidden:YES];
         
-        [((LLGalaxyView *)self.superview).starView.galaxyNext.starView setHidden:NO];
+        [((LLGalaxyView *)self.superview).galaxyNext.starView setHidden:NO];
     }else if (moonStage == MoonReturn){
         [self returnMoon];
-        [((LLGalaxyView *)self.superview).starView.galaxySuper showLine];//显示上一星系的线
+        [((LLGalaxyView *)self.superview).galaxySuper showLine];//显示上一星系的线
     }else if (moonStage == MoonRemove){
         [self.superview removeFromSuperview];
     }
