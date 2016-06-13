@@ -10,6 +10,14 @@
 	<array>
 		<dict>
 			<key>title</key>
+			<string>加拿大</string>
+			<key>image</key>
+			<string></string>
+			<key>nextLevel</key>
+			<array/>
+		</dict>
+		<dict>
+			<key>title</key>
 			<string>美国</string>
 			<key>image</key>
 			<string></string>
