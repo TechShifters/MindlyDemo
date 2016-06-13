@@ -52,22 +52,22 @@
 -(void)showNextGalaxyWith:(LLStarView *)starView andStartObject:(LLStarObject*)theStarObject
 {
     //老星系变成超星
-    [starView.galaxyAtSide setGalaxyStage:GalaxySuper andWithStar:starView];
+    [starView.galaxySuper setGalaxyStage:GalaxySuper andWithStar:starView];
     
     //新的是活跃星系
     LLGalaxyView *galaxyView = [[LLGalaxyView alloc]initWithFrame:self.frame andStar:theStarObject];
     [self addSubview:galaxyView];
     [galaxyView setGalaxyStage:GalaxyActiveShow andWithStar:starView];
-    galaxyView.starView.galaxyAtSide = self;
+    galaxyView.starView.galaxySuper = self;
     
-    starView.galaxyAtSide.starView.galaxyNext = galaxyView;
+    starView.galaxySuper.starView.galaxyNext = galaxyView;
 
 }
 
 -(void)showSubGalaxy
 {
     if (_superStarView) {
-        [_starView.galaxyAtSide setGalaxyStage:GalaxyActiveReturn andWithStar:_superStarView];//上一星系激活
+        [_starView.galaxySuper setGalaxyStage:GalaxyActiveReturn andWithStar:_superStarView];//上一星系激活
         
         [_starView removeFromSuperview];
         [_moonView setMoonStage:MoonRemove andWithStar:nil  andIsMove:YES];
@@ -120,7 +120,7 @@
     switch (stage) {
         case GalaxySuper:{
             isHidenLine = NO;
-            [_starView.galaxyAtSide hideLine];//隐藏上个星系的线
+            [_starView.galaxySuper hideLine];//隐藏上个星系的线
             
             _starView.stage = StarSuperCenter;
             [self changeToSuperGalaxy];
