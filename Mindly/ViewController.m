@@ -32,7 +32,7 @@
 {
      LLGalaxyView *galaxyView = [[LLGalaxyView alloc]initWithFrame:self.view.frame
                   andStar:[self getData]];
-    [galaxyView setGalaxyStage:GalaxyActiveShow andWithStar:nil];
+    [galaxyView setGalaxyStage:GalaxyBorn andWithStar:nil];
     [self.view addSubview:galaxyView];
     
 }

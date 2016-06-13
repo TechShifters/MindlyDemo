@@ -10,15 +10,18 @@
 typedef enum {
     StarSuperCenter = 0,
     StarCenter = 1,
-    StarOut= 2,
-    StarHiden = 3
+    StarSide= 2,
+    StarCenterReturn= 3,
+    StarDeath = 4
 }StarState;
 
 @class LLStarObject;
-@class LLGalaxyView;
 
 @interface LLStarView : UIView
 @property (nonatomic,assign) StarState stage;
 @property (nonatomic,strong) UILabel *titleLable;
+
 -(void)setStarObject:(LLStarObject *)starObject;
+-(void)setStarStage:(StarState) stage;
 @end
+

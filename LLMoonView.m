@@ -54,40 +54,41 @@
     }
     return self;
 }
--(void)setMoonStage:(MoonState) stage andWithStar:(LLStarView *)starView andIsMove:(BOOL) isMove;
-{
+-(void)setMoonStage:(MoonState) stage andWithStar:(LLStarView *)starView {
     moonStage = stage;
     switch (stage) {
         case MoonHiden:{
             [self animationStar:starView];//旋转动画
             for (int i=0; i<[starsViewArray count]; i++) {
                 LLStarView *starView = starsViewArray[i];
-                starView.stage = StarHiden;
+                starView.stage = StarDeath;
             }
             
             break;
         }case MoonOut:{
+            [self showMoonView];
+        }case MoonOutFirst:{
+        
             for (int i=0; i<[starsViewArray count]; i++) {
                 LLStarView *starView = starsViewArray[i];
-                starView.stage = StarOut;
+                starView.stage = StarSide;
             }
             self.alpha = 1;
             [self setHidden:NO];
-            
-            if (isMove) {
-                [self showMoonView];
-            }
             break;
         }case MoonReturn:{
             for (int i=0; i<[starsViewArray count]; i++) {
                 LLStarView *starView = starsViewArray[i];
-                starView.stage = StarOut;
+                starView.stage = StarSide;
             }
             self.alpha = 1;
             [self setHidden:NO];
 
             [self returnCircleView];//圆环回位
             [self returnAnimationStar:starView];
+            break;
+        }case MoonRemove:{
+            [self removeMoonView];
             break;
         }default:
             break;
@@ -282,7 +283,7 @@
         [((LLGalaxyView *)self.superview).galaxyNext.starView setHidden:NO];
     }else if (moonStage == MoonReturn){
         [self returnMoon];
-        [((LLGalaxyView *)self.superview).galaxySuper showLine];//显示上一星系的线
+        [((LLGalaxyView *)self.superview).galaxySuper hidenLine:NO];//显示上一星系的线
     }else if (moonStage == MoonRemove){
         [self.superview removeFromSuperview];
     }
@@ -477,41 +478,3 @@
     [circleView.layer addAnimation:group forKey:@"group"];
 }
 @end
-
-
-
-
-//-(void)layoutSubviews
-//{
-//    float r = CGRectGetMidX(self.bounds)-StarWidth/2;
-//    float angle = 2*M_PI/[starsViewArray count];
-//    [UIView animateWithDuration:0.3 animations:^{
-//        for (int i=0; i<[starsViewArray count]; i++) {
-//            LLStarView *starView = starsViewArray[i];
-//            [starView setFrame:CGRectMake(
-//                                          CGRectGetMidX(self.bounds)+r*sin(i*angle+fistStarAngle+M_PI/2)-StarWidth/2,
-//                                          CGRectGetMidY(self.bounds)-r*cos(i*angle+fistStarAngle+M_PI/2)-StarWidth/2,
-//                                          StarWidth,
-//                                          StarWidth)];
-//        }
-//    }];
-//    [self setNeedsDisplay];
-//
-//}
-//- (void)drawRect:(CGRect)rect {
-////    if (!isShow) {
-////        return;
-////    }
-//    if (moonStage==MoonHiden) {
-//        CGContextRef ctx=UIGraphicsGetCurrentContext();
-//        CGContextSetStrokeColorWithColor(ctx, [UIColor colorWithRed:220.0/255 green:220.0/255 blue:220.0/255 alpha:1].CGColor);
-//        CGContextAddArc(ctx, circleForLine.x, circleForLine.y,radiusForLine, 0, 2*M_PI, 0);
-//        CGContextStrokePath(ctx);
-//    }else{
-//        CGContextRef ctx=UIGraphicsGetCurrentContext();
-//        CGContextSetStrokeColorWithColor(ctx, [UIColor colorWithRed:220.0/255 green:220.0/255 blue:220.0/255 alpha:1].CGColor);
-//        CGContextAddArc(ctx, CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds), CGRectGetMidX(self.bounds)-StarWidth/2, 0, 2*M_PI, 0);
-//        CGContextStrokePath(ctx);
-//    }
-//}
-
