@@ -21,20 +21,36 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self setBackgroundColor:[UIColor clearColor]];
-        //加圆圈
-        float r = CGRectGetMidX(self.bounds)-StarWidth/2;
-        _circleView  = [[LLCircleView alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.bounds)-r, CGRectGetMidY(self.bounds)-r, r*2,r*2)];
-        [self addSubview:_circleView];
+        if (starObject.nextStars.count<7) {
+            //加圆圈
+            float r = CGRectGetMidX(self.bounds)-StarWidth/2;
+            _circleView  = [[LLCircleView alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.bounds)-r, CGRectGetMidY(self.bounds)-r, r*2,r*2)];
+            [self addSubview:_circleView];
+            
+            //加恒星
+            _starView = [[LLStarView alloc]initWithFrame:CGRectMake(CGRectGetMidX(self.bounds)-CGRectGetWidth(self.bounds)/6,CGRectGetMidY(self.bounds)-CGRectGetWidth(self.bounds)/6, CGRectGetWidth(self.bounds)/3,CGRectGetWidth(self.bounds)/3)];
+            [_starView setStarObject:starObject];
+            [self addSubview:_starView];
+            
+            //加卫星
+            _moonView = [[LLMoonView alloc]initWithFrame:self.bounds andAry:starObject.nextStars atGalaxy:self];
+            [self addSubview:_moonView];
+        }else{
+            //加圆圈
+            float r = CGRectGetWidth(self.bounds);
+            _circleView  = [[LLCircleView alloc] initWithFrame:CGRectMake(StarWidth/2, CGRectGetHeight(self.bounds)*2/5, r*2,r*2)];
+            [self addSubview:_circleView];
+            
+            //加恒星
+            _starView = [[LLStarView alloc]initWithFrame:CGRectMake(CGRectGetWidth(self.bounds)-StarWidth*4.8/3,CGRectGetHeight(self.bounds)-StarWidth*7/3, StarWidth*4/3,StarWidth*4/3)];
+            [_starView setStarObject:starObject];
+            [self addSubview:_starView];
 
-        //加恒星
-        _starView = [[LLStarView alloc]initWithFrame:CGRectMake(CGRectGetMidX(self.bounds)-CGRectGetWidth(self.bounds)/6,CGRectGetMidY(self.bounds)-CGRectGetWidth(self.bounds)/6, CGRectGetWidth(self.bounds)/3,CGRectGetWidth(self.bounds)/3)];
-        [_starView setStarObject:starObject];
-        [self addSubview:_starView];
-
-        //加卫星
-        _moonView = [[LLMoonView alloc]initWithFrame:self.bounds andAry:starObject.nextStars atGalaxy:self];
-        [self addSubview:_moonView];
-        
+            
+            //加卫星
+            _moonView = [[LLMoonView alloc]initWithFrame:self.bounds andAry:starObject.nextStars atGalaxy:self];
+            [self addSubview:_moonView];
+        }
         //上一星系的恒星响应事件
         UIButton *superStarBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 80, 80)];
         [superStarBtn setBackgroundColor:[UIColor clearColor]];

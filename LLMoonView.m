@@ -10,7 +10,7 @@
 #import "LLStarView.h"
 #import "LLCircleView.h"
 #import "LLGalaxyView.h"
-
+#import "LLStarObject.h"
 
 typedef enum {
     NormalSuperMove=0,
@@ -18,12 +18,19 @@ typedef enum {
     HH=2,
 }MoveType;
 
+typedef enum {
+    MoonNormal=0,
+    MoonLarge=1,
+}MoonType;
+
 #define StarWidth 80
 #define DTime  0.5
 #define DD 10
 
 @implementation LLMoonView{
     MoonState moonStage;
+    MoonType moonType;
+    
     NSMutableArray *starsViewArray;
     float fistStarAngle;
     
@@ -34,6 +41,10 @@ typedef enum {
     float lastDAngle;
     float lastDTime;
     BOOL lastIsClockwise;
+    
+    CGPoint circleCenter;
+    float r;
+    NSMutableArray *starsStoreArray;
 }
 
 -(LLMoonView *)initWithFrame:(CGRect)frame andAry:(NSMutableArray*) starsArray atGalaxy:(LLGalaxyView *)atGalaxy
@@ -42,23 +53,45 @@ typedef enum {
     if (self) {
         [self setBackgroundColor:[UIColor clearColor]];
         starsViewArray  = [[NSMutableArray alloc]init];
-        fistStarAngle = -M_PI/2;
-        
-        if ([starsArray count]!=0) {
-            float r = CGRectGetMidX(self.bounds)-StarWidth/2;
+        starsStoreArray = starsArray;
+        if ([starsArray count]>0&&[starsArray count]<7) {
+            fistStarAngle = -M_PI/2;
+            r = CGRectGetMidX(self.bounds)-StarWidth/2;
             float angle = 2*M_PI/[starsArray count];
+            circleCenter = CGPointMake( CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+            moonType = MoonNormal;
             for (int i=0; i<[starsArray count]; i++) {
                 LLStarObject *moonStar  = starsArray[i];
                 LLStarView *starView = [[LLStarView alloc]initWithFrame:
                                         CGRectMake(
-                                                   CGRectGetMidX(self.bounds)+r*sin(i*angle)-StarWidth/2,
-                                                   CGRectGetMidY(self.bounds)-r*cos(i*angle)-StarWidth/2,
+                                                  circleCenter.x+r*sin(i*angle)-StarWidth/2,
+                                                   circleCenter.y-r*cos(i*angle)-StarWidth/2,
                                                    StarWidth,
                                                    StarWidth)];
                 [starView setStarObject:moonStar];
                 [self addSubview:starView];
                 [starsViewArray addObject:starView];
             }
+        }else if ([starsArray count]>=7){
+            fistStarAngle = -M_PI;
+            float angle = M_PI/9;
+            r = CGRectGetWidth(self.bounds);
+            circleCenter = CGPointMake(CGRectGetWidth(self.bounds)+StarWidth/2, CGRectGetHeight(self.bounds)*2/5+CGRectGetWidth(self.bounds));
+            moonType = MoonLarge;
+
+            for (int i=0; i<18; i++) {
+                LLStarObject *moonStar  = starsArray[i%[starsArray count]];
+                LLStarView *starView = [[LLStarView alloc]initWithFrame:
+                                        CGRectMake(
+                                                   circleCenter.x-r*cos(i*angle)-StarWidth/2,
+                                                   circleCenter.y-r*sin(i*angle)-StarWidth/2,
+                                                   StarWidth,
+                                                   StarWidth)];
+                [starView setStarObject:moonStar];
+                [self addSubview:starView];
+                [starsViewArray addObject:starView];
+            }
+
         }
     }
     return self;
@@ -161,7 +194,7 @@ typedef enum {
         if (isTouching) {
             float endAngle = [self calculateAngleWithPoint:endPoint];
             float startAngle = [self calculateAngleWithPoint:startPoint];
-            BOOL isClockwise = ((endPoint.x-startPoint.x)*(CGRectGetMidY(self.bounds)- startPoint.y)+(endPoint.y-startPoint.y)*(startPoint.x-CGRectGetMidX(self.bounds)))>0;//根据向量计算是顺时针还是逆时针
+            BOOL isClockwise = ((endPoint.x-startPoint.x)*(circleCenter.y- startPoint.y)+(endPoint.y-startPoint.y)*(startPoint.x-circleCenter.x))>0;//根据向量计算是顺时针还是逆时针
 
             lastDAngle = endAngle-startAngle;
             lastDTime = myTouch.timestamp-startTime;
@@ -172,8 +205,17 @@ typedef enum {
             if ((myTouch.timestamp-startTime)>0.1) {
                 [self animationAngle:lastDAngle*10 duration:1 clockwise:lastIsClockwise];
             }else{
-                float angle = lastDAngle/lastDTime;
-                [self animationAngle:angle/1.7 duration:1.5 clockwise:lastIsClockwise];
+                float angle = 0;
+                if (lastDTime!=0) {
+                    angle = lastDAngle/lastDTime;
+                }
+                if (moonType == MoonNormal) {
+                    [self animationAngle:angle/1.7 duration:1.5 clockwise:lastIsClockwise];
+
+                }else if (moonType == MoonLarge){
+                    float largeAngel = angle/8;
+                    [self animationAngle:largeAngel duration:1.5 clockwise:lastIsClockwise];
+                }
             }
         }
     }
@@ -187,20 +229,29 @@ typedef enum {
     UIBezierPath *bezierPath = [[UIBezierPath alloc]init];
     CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
     animation.duration = animationDtime;
-    
-    float r = CGRectGetMidX(self.bounds)-StarWidth/2;
+    animation.removedOnCompletion = NO;
+    animation.fillMode = kCAFillModeForwards;
+
     float dangle = 2*M_PI/[starsViewArray count];
     
+    //文字更新
+    if (moonType == MoonLarge) {
+        [self reSetStarNameWith:isClockwise];
+    }
+    NSLog(@"++++++++++++++++++++++++++++++++++++++++++++");
+
     for (int i=0; i<[starsViewArray count]; i++) {
         LLStarView *starView = starsViewArray[i];
         float angle = fistStarAngle + dangle*i;
         [bezierPath removeAllPoints];
-        [bezierPath  addArcWithCenter:self.center radius:r startAngle:angle endAngle:angle+animationDangle clockwise:isClockwise];
+        [bezierPath  addArcWithCenter:circleCenter radius:r startAngle:angle endAngle:angle+animationDangle clockwise:isClockwise];
         animation.path = bezierPath.CGPath;
         [starView.layer addAnimation:animation forKey:nil];
         
         [starView setCenter:[self calculatePointWithAngle:angle+animationDangle]];
+        NSLog(@"%f  %f",angle,angle+animationDangle);
     }
+    NSLog(@"++++++++++++++++++++++++++++++++++++++++++++");
     fistStarAngle = fistStarAngle+animationDangle;
 }
 
@@ -209,8 +260,7 @@ typedef enum {
  */
 -(CGPoint)calculatePointWithAngle:(float)angle
 {
-    float r = CGRectGetMidX(self.bounds)-StarWidth/2;
-    return  CGPointMake(CGRectGetMidX(self.bounds)+cos(angle)*r, CGRectGetMidY(self.bounds)+sin(angle)*r);
+    return  CGPointMake(circleCenter.x+cos(angle)*r, circleCenter.y+sin(angle)*r);
 }
 
 /**
@@ -218,9 +268,93 @@ typedef enum {
  */
 -(float)calculateAngleWithPoint:(CGPoint)point
 {
-    return  (point.y>self.center.y?1:-1)*acos((point.x-self.center.x)/sqrt(pow((point.x-self.center.x), 2)+pow((point.y-self.center.y), 2))) ;
+    return  (point.y>circleCenter.y?1:-1)*acos((point.x-circleCenter.x)/sqrt(pow((point.x-circleCenter.x), 2)+pow((point.y-circleCenter.y), 2))) ;
 }
 
+/**
+ * @brief 重置星星的名称
+ */
+-(void)reSetStarNameWith:(BOOL)isClockwise
+{
+    int viewStartIndex = 0;
+    int viewEndIndex = 0;
+    
+    int startIndex = 0;
+    int endIndex = 0;
+    
+    float smallX = 10000;
+    float smallY = 10000;
+    
+    //获取   view中两边显示的view   数组中位置
+    for (int i=0; i<[starsViewArray count]; i++) {
+        LLStarView *starView = starsViewArray[i];
+        if (starView.center.x<=(StarWidth/2+CGRectGetHeight(self.bounds)/3)) {
+            if (starView.center.x<smallX) {
+                smallX =starView.center.x;
+                viewStartIndex = i;
+                startIndex = [self indexWithString:starView.titleLable.text];
+            }
+        }else if (starView.center.y<CGRectGetHeight(self.bounds)*2/5+CGRectGetHeight(self.bounds)/3){
+            if (starView.center.y<smallY) {
+                smallY =starView.center.y;
+                viewEndIndex = i;
+                endIndex = [self indexWithString:starView.titleLable.text];
+            }
+        }
+    }
+
+    //刷新view的标题
+    if (!isClockwise) {//逆时针
+        if (viewStartIndex<viewEndIndex) {
+            for (int i = viewEndIndex; i<[starsViewArray count]; i++) {
+                [self setStarViewWith:i andWith:endIndex+(i-viewEndIndex)];
+            }
+            for (int i = 0; i <viewStartIndex; i++) {
+                [self setStarViewWith:i andWith:endIndex+i+([starsViewArray count]-viewEndIndex)];
+            }
+        }else{
+            for (int i = viewEndIndex; i<viewStartIndex; i++) {
+                [self setStarViewWith:i andWith:endIndex+(i-viewEndIndex)];
+            }
+        }
+    }
+    else{//顺时针
+        if (viewStartIndex<viewEndIndex) {
+            for (int i = viewStartIndex-1; i>=0; i--) {
+                [self setStarViewWith:i andWith:startIndex-(viewStartIndex-i)];
+            }
+            
+            for (long i = [starsViewArray count]-1; i>viewEndIndex; i--) {
+                [self setStarViewWith:i andWith:startIndex-([starsViewArray count]-i)-viewStartIndex];
+            }
+        }else{
+            for (int i =viewStartIndex-1; i>viewEndIndex; i--) {
+                [self setStarViewWith:i andWith:startIndex-(viewStartIndex-i)];
+            }
+        }
+    }
+}
+-(void)setStarViewWith:(long) viewIndex andWith:(long) dataIndex
+{
+    long starCount = [starsStoreArray count];
+    long storeArray = dataIndex%starCount;
+    if (storeArray<0) {
+        storeArray = storeArray + starCount;
+    }
+    LLStarView *starView = starsViewArray[viewIndex];
+    LLStarObject *star = starsStoreArray[storeArray];
+    [starView setStarObject:star];
+}
+-(int)indexWithString:(NSString *)title
+{
+    for (int i=0; i<[starsStoreArray count]; i++) {
+        LLStarObject *star = starsStoreArray[i];
+        if ([star.title isEqualToString:title]) {
+            return i;
+        }
+    }
+    return 0;
+}
 #pragma mark ----------------星系转换-----------------------
 
 #pragma mark 卫星旋转
@@ -235,6 +369,10 @@ typedef enum {
         case NormalSuperMove:{
              angle = [self calculateAngleWithPoint:starView.center];
              endAngel = [self calculateAngleWithPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
+            //处理第三象限的特殊情况
+            if (angle<-M_PI+endAngel) {
+                angle = 2*M_PI+angle;
+            }
             break;
         }case NormalReturnMove:{
             int whichOne;
@@ -339,16 +477,15 @@ typedef enum {
 /**
  * @brief 根据角度 圆心 半径  得到坐标
  */
--(CGPoint)calculatePointWithAngle:(float)angle andRadius:(float)r andCenter:(CGPoint)center
+-(CGPoint)calculatePointWithAngle:(float)angle andRadius:(float)rTwo andCenter:(CGPoint)center
 {
-    return  CGPointMake(center.x+cos(angle)*r, center.y+sin(angle)*r);
+    return  CGPointMake(center.x+cos(angle)*rTwo, center.y+sin(angle)*rTwo);
 }
 
 -(void)returnMoon
 {
     fistStarAngle = -M_PI/2;
     if ([starsViewArray count]!=0) {
-        float r = CGRectGetMidX(self.bounds)-StarWidth/2;
         float angle = 2*M_PI/[starsViewArray count];
         for (int i=0; i<[starsViewArray count]; i++) {
             LLStarView *moonStar  = starsViewArray[i];
