@@ -54,7 +54,7 @@
         //上一星系的恒星响应事件
         UIButton *superStarBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 80, 80)];
         [superStarBtn setBackgroundColor:[UIColor clearColor]];
-        [superStarBtn addTarget:self action:@selector(showSubGalaxy) forControlEvents:UIControlEventTouchUpInside];
+        [superStarBtn addTarget:self action:@selector(showSubGalaxy:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:superStarBtn];
     }
     return self;
@@ -76,14 +76,16 @@
     self.galaxyNext = galaxyView;
 }
 
--(void)showSubGalaxy
+-(void)showSubGalaxy:(UIButton *)btn
 {
+    [btn  setEnabled:NO];
     if (_superStarView) {
         //本星系  消散
         [self setGalaxyStage:GalaxyDeath andWithStar:nil];
 
         //超星 回归
-        [_galaxySuper setGalaxyStage:GalaxyReturn andWithStar:_superStarView];    }
+        [_galaxySuper setGalaxyStage:GalaxyReturn andWithStar:_superStarView];
+    }
 }
 
 

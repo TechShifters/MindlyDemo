@@ -238,8 +238,6 @@ typedef enum {
     if (moonType == MoonLarge) {
         [self reSetStarNameWith:isClockwise];
     }
-    NSLog(@"++++++++++++++++++++++++++++++++++++++++++++");
-
     for (int i=0; i<[starsViewArray count]; i++) {
         LLStarView *starView = starsViewArray[i];
         float angle = fistStarAngle + dangle*i;
@@ -249,9 +247,7 @@ typedef enum {
         [starView.layer addAnimation:animation forKey:nil];
         
         [starView setCenter:[self calculatePointWithAngle:angle+animationDangle]];
-        NSLog(@"%f  %f",angle,angle+animationDangle);
     }
-    NSLog(@"++++++++++++++++++++++++++++++++++++++++++++");
     fistStarAngle = fistStarAngle+animationDangle;
 }
 
@@ -271,6 +267,10 @@ typedef enum {
     return  (point.y>circleCenter.y?1:-1)*acos((point.x-circleCenter.x)/sqrt(pow((point.x-circleCenter.x), 2)+pow((point.y-circleCenter.y), 2))) ;
 }
 
+-(float)calculateAngleOriginalWithPoint:(CGPoint)point
+{
+    return  acos((point.x)/sqrt(pow((point.x), 2)+pow((point.y), 2))) ;
+}
 /**
  * @brief 重置星星的名称
  */
@@ -363,12 +363,22 @@ typedef enum {
  * @brief  转动所有卫星
  */
 -(void)animationStar:(LLStarView *)starView  andWithMoveType:(MoveType)moveType{
+    //隐藏部分view
+    if (moonType == MoonLarge) {
+        for (int i=0; i<[starsViewArray count]; i++) {
+            LLStarView *starView = starsViewArray[i];
+            if (starView.center.y>(self.frame.size.height+40)||starView.center.x>self.frame.size.width+40) {
+                [starView setHidden:YES];
+            }
+        }
+
+    }
     float angle;
     float endAngel;
     switch (moveType) {
         case NormalSuperMove:{
              angle = [self calculateAngleWithPoint:starView.center];
-             endAngel = [self calculateAngleWithPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
+             endAngel = [self calculateAngleOriginalWithPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
             //处理第三象限的特殊情况
             if (angle<-M_PI+endAngel) {
                 angle = 2*M_PI+angle;
@@ -381,25 +391,28 @@ typedef enum {
                     break;
                 }
             }
-             angle = [self calculateAngleWithPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
+             angle = [self calculateAngleOriginalWithPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
              endAngel= -M_PI/2+whichOne*(2*M_PI/[starsViewArray count]);
+            if (moonType == MoonLarge) {
+                endAngel =  endAngel -M_PI/2;
+            }
             break;
             
         }default:
             break;
     }
-    [self animationWithAngle:endAngel-angle andType:moveType];
+    [self animationWithAngle:endAngel-angle andType:moveType withStarView:starView];
 }
 
 /**
  * @brief 根据角度  时间  顺时针还是逆时针  转动所有卫星
  */
--(void)animationWithAngle:(float)animationDangle andType:(MoveType) moveType {
+-(void)animationWithAngle:(float)animationDangle andType:(MoveType) moveType withStarView:(LLStarView *)showStarView {
     float dangle = 2*M_PI/[starsViewArray count];
     for (int i=0; i<[starsViewArray count]; i++) {
         LLStarView *starView = starsViewArray[i];
         float angle = fistStarAngle + dangle*i;
-        [self animationEveryStar:starView startAngle:angle endAngle:angle+animationDangle andType:moveType];
+        [self animationEveryStar:starView andIsHiden:![starView isEqual:showStarView] startAngle:angle endAngle:angle+animationDangle andType:moveType];
     }
     fistStarAngle = fistStarAngle+animationDangle;
 }
@@ -407,20 +420,15 @@ typedef enum {
 /**
  * @brief 每个卫星做关键帧动画
  */
--(void)animationEveryStar:(LLStarView *) starView  startAngle:(float)startAngle endAngle:(float) endAngle  andType:(MoveType) moveType
-{
-    float fromSize =1.0;
-    float toSize =1.5;
-    
-    if (moveType%2==1) {
-         fromSize =1.5;
-         toSize =1.0;
+-(void)animationEveryStar:(LLStarView *) starView  andIsHiden:(BOOL) isHiden  startAngle:(float)startAngle endAngle:(float) endAngle  andType:(MoveType) moveType
+{    
+    CAKeyframeAnimation *animationOne = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+    if (moveType == NormalSuperMove) {
+        animationOne.values = @[@1,@1.1,@1.5];
+    }else{
+        animationOne.values = @[@1.5,@1.4,@1];
     }
-    
-    //卫星放大
-    CABasicAnimation *animationOne = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-    animationOne.fromValue = [NSNumber numberWithFloat:fromSize];
-    animationOne.toValue = [NSNumber numberWithFloat:toSize];
+
     //移动
     CAKeyframeAnimation *animationTwo = [CAKeyframeAnimation animationWithKeyPath:@"position"];
     animationTwo.values = [self getPathArrayWithStartAngle:startAngle endAngle:endAngle andType:moveType];
@@ -433,6 +441,19 @@ typedef enum {
     group.animations=@[animationOne,animationTwo];
     [starView.layer addAnimation:group forKey:@"group"];
 
+    if (isHiden) {
+        CAKeyframeAnimation *animationOne = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
+        if (moveType == NormalSuperMove) {
+            animationOne.values = @[@1,@0.9,@0];
+        }else{
+            animationOne.values = @[@0,@0,@1];
+        }
+        animationOne.repeatCount = 1;
+        animationOne.duration = 0.3;
+        animationOne.removedOnCompletion = NO;
+        animationOne.fillMode = kCAFillModeForwards;
+        [starView.layer addAnimation:animationOne forKey:@"changeOpacity"];
+    }
 }
 
 /**
@@ -447,18 +468,18 @@ typedef enum {
     float radius = 0.0;
     
     if (moveType<2) {
-        dRadius=sqrt(pow((self.center.x), 2)+pow((self.center.y), 2)) -(CGRectGetMidX(self.bounds)-StarWidth/2);
+        dRadius=sqrt(pow((self.center.x), 2)+pow((self.center.y), 2)) -r;
     }
     
     for (int i=0; i<=DTime*DD;i++) {
         switch (moveType) {
             case NormalSuperMove:{
-                center = CGPointMake(self.frame.size.width/2 - i*self.frame.size.width/(2*DTime*DD), self.frame.size.height/2- i*self.frame.size.height/(2*DTime*DD));
-                radius = CGRectGetMidX(self.bounds)-StarWidth/2+i*dRadius/(DTime*DD);
+                center = CGPointMake(circleCenter.x - i*circleCenter.x/(DTime*DD), circleCenter.y- i*circleCenter.y/(DTime*DD));
+                radius = r+i*dRadius/(DTime*DD);
 
                 break;
             }case NormalReturnMove:{
-                center = CGPointMake(i*self.frame.size.width/(2*DTime*DD),i*self.frame.size.height/(2*DTime*DD));
+                center = CGPointMake(i*circleCenter.x/(DTime*DD),i*circleCenter.y/(DTime*DD));
                 radius = sqrt(pow((self.center.x), 2)+pow((self.center.y), 2))-i*dRadius/(DTime*DD);
 
                 break;
@@ -484,16 +505,33 @@ typedef enum {
 
 -(void)returnMoon
 {
-    fistStarAngle = -M_PI/2;
-    if ([starsViewArray count]!=0) {
-        float angle = 2*M_PI/[starsViewArray count];
-        for (int i=0; i<[starsViewArray count]; i++) {
-            LLStarView *moonStar  = starsViewArray[i];
-            [moonStar setFrame:CGRectMake(
-                                          CGRectGetMidX(self.bounds)+r*sin(i*angle)-StarWidth/2,
-                                          CGRectGetMidY(self.bounds)-r*cos(i*angle)-StarWidth/2,
-                                          StarWidth,
-                                          StarWidth)];
+    if (moonType == MoonNormal) {
+        fistStarAngle = -M_PI/2;
+        if ([starsViewArray count]!=0) {
+            float angle = 2*M_PI/[starsViewArray count];
+            for (int i=0; i<[starsViewArray count]; i++) {
+                LLStarView *moonStar  = starsViewArray[i];
+                [moonStar setFrame:CGRectMake(
+                                              circleCenter.x+r*sin(i*angle)-StarWidth/2,
+                                              circleCenter.y-r*cos(i*angle)-StarWidth/2,
+                                              StarWidth,
+                                              StarWidth)];
+            }
+        }
+    }else if (moonType == MoonLarge){
+        fistStarAngle = -M_PI;
+        if ([starsViewArray count]!=0) {
+            float angle = M_PI/9;
+            for (int i=0; i<[starsViewArray count]; i++) {
+                LLStarView *moonStar  = starsViewArray[i];
+                [moonStar setHidden:NO];
+//                moonStar.layer.opacity = 1;
+                [moonStar setFrame:CGRectMake(
+                                              circleCenter.x-r*cos(i*angle)-StarWidth/2,
+                                              circleCenter.y-r*sin(i*angle)-StarWidth/2,
+                                              StarWidth,
+                                              StarWidth)];
+            }
         }
     }
 }
@@ -556,7 +594,7 @@ typedef enum {
     CABasicAnimation *animationOne = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
     animationOne.fromValue = [NSNumber numberWithFloat:fromSize];
     animationOne.toValue = [NSNumber numberWithFloat:toSize];
-    // 移动
+    // 不透明
     CABasicAnimation *animationTwo = [CABasicAnimation animationWithKeyPath:@"opacity"];
     
     animationTwo.fromValue = [NSNumber numberWithFloat:fromOpacity];
