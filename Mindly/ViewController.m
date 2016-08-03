@@ -30,7 +30,7 @@
 
 -(void)addStar
 {
-     LLGalaxyView *galaxyView = [[LLGalaxyView alloc]initWithFrame:self.view.frame
+    LLGalaxyView *galaxyView = [[LLGalaxyView alloc]initWithFrame:self.view.frame
                   andStar:[self getData]];
     [galaxyView setGalaxyStage:GalaxyBorn andWithStar:nil];
     [self.view addSubview:galaxyView];
