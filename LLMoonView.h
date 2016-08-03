@@ -15,11 +15,18 @@ typedef enum {
     MoonRemove = 4,
 }MoonState;
 
+typedef enum {
+    MoonNormal=0,
+    MoonLarge=1,
+}MoonType;
+
+
 @class LLGalaxyView;
 @class LLStarView;
 
 @interface LLMoonView : UIView
--(LLMoonView *)initWithFrame:(CGRect)frame andAry:(NSMutableArray*) starsArray atGalaxy:(LLGalaxyView *) atGalaxy;
+@property (nonatomic,assign) MoonType moonType;
 
+-(LLMoonView *)initWithFrame:(CGRect)frame andAry:(NSMutableArray*) starsArray atGalaxy:(LLGalaxyView *) atGalaxy;
 -(void)setMoonStage:(MoonState) stage andWithStar:(LLStarView *)starView;
 @end

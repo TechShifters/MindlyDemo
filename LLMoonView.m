@@ -18,18 +18,13 @@ typedef enum {
     HH=2,
 }MoveType;
 
-typedef enum {
-    MoonNormal=0,
-    MoonLarge=1,
-}MoonType;
-
 #define StarWidth 80
 #define DTime  0.5
 #define DD 10
 
 @implementation LLMoonView{
     MoonState moonStage;
-    MoonType moonType;
+    LLGalaxyView *myGalaxy;
     
     NSMutableArray *starsViewArray;
     float fistStarAngle;
@@ -43,7 +38,7 @@ typedef enum {
     BOOL lastIsClockwise;
     
     CGPoint circleCenter;
-    float r;
+    float rForCircle;
     NSMutableArray *starsStoreArray;
 }
 
@@ -51,21 +46,22 @@ typedef enum {
 {
     self = [super initWithFrame:frame];
     if (self) {
+        myGalaxy = atGalaxy;
         [self setBackgroundColor:[UIColor clearColor]];
         starsViewArray  = [[NSMutableArray alloc]init];
         starsStoreArray = starsArray;
         if ([starsArray count]>0&&[starsArray count]<7) {
             fistStarAngle = -M_PI/2;
-            r = CGRectGetMidX(self.bounds)-StarWidth/2;
+            rForCircle = CGRectGetMidX(self.bounds)-StarWidth/2;
             float angle = 2*M_PI/[starsArray count];
             circleCenter = CGPointMake( CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-            moonType = MoonNormal;
+            _moonType = MoonNormal;
             for (int i=0; i<[starsArray count]; i++) {
                 LLStarObject *moonStar  = starsArray[i];
                 LLStarView *starView = [[LLStarView alloc]initWithFrame:
                                         CGRectMake(
-                                                  circleCenter.x+r*sin(i*angle)-StarWidth/2,
-                                                   circleCenter.y-r*cos(i*angle)-StarWidth/2,
+                                                  circleCenter.x+rForCircle*sin(i*angle)-StarWidth/2,
+                                                   circleCenter.y-rForCircle*cos(i*angle)-StarWidth/2,
                                                    StarWidth,
                                                    StarWidth)];
                 [starView setStarObject:moonStar];
@@ -75,23 +71,22 @@ typedef enum {
         }else if ([starsArray count]>=7){
             fistStarAngle = -M_PI;
             float angle = M_PI/9;
-            r = CGRectGetWidth(self.bounds);
+            rForCircle = CGRectGetWidth(self.bounds);
             circleCenter = CGPointMake(CGRectGetWidth(self.bounds)+StarWidth/2, CGRectGetHeight(self.bounds)*2/5+CGRectGetWidth(self.bounds));
-            moonType = MoonLarge;
+            _moonType = MoonLarge;
 
             for (int i=0; i<18; i++) {
                 LLStarObject *moonStar  = starsArray[i%[starsArray count]];
                 LLStarView *starView = [[LLStarView alloc]initWithFrame:
                                         CGRectMake(
-                                                   circleCenter.x-r*cos(i*angle)-StarWidth/2,
-                                                   circleCenter.y-r*sin(i*angle)-StarWidth/2,
+                                                   circleCenter.x-rForCircle*cos(i*angle)-StarWidth/2,
+                                                   circleCenter.y-rForCircle*sin(i*angle)-StarWidth/2,
                                                    StarWidth,
                                                    StarWidth)];
                 [starView setStarObject:moonStar];
                 [self addSubview:starView];
                 [starsViewArray addObject:starView];
             }
-
         }
     }
     return self;
@@ -209,10 +204,10 @@ typedef enum {
                 if (lastDTime!=0) {
                     angle = lastDAngle/lastDTime;
                 }
-                if (moonType == MoonNormal) {
+                if (_moonType == MoonNormal) {
                     [self animationAngle:angle/1.7 duration:1.5 clockwise:lastIsClockwise];
 
-                }else if (moonType == MoonLarge){
+                }else if (_moonType == MoonLarge){
                     float largeAngel = angle/8;
                     [self animationAngle:largeAngel duration:1.5 clockwise:lastIsClockwise];
                 }
@@ -235,14 +230,14 @@ typedef enum {
     float dangle = 2*M_PI/[starsViewArray count];
     
     //文字更新
-    if (moonType == MoonLarge) {
+    if (_moonType == MoonLarge) {
         [self reSetStarNameWith:isClockwise];
     }
     for (int i=0; i<[starsViewArray count]; i++) {
         LLStarView *starView = starsViewArray[i];
         float angle = fistStarAngle + dangle*i;
         [bezierPath removeAllPoints];
-        [bezierPath  addArcWithCenter:circleCenter radius:r startAngle:angle endAngle:angle+animationDangle clockwise:isClockwise];
+        [bezierPath  addArcWithCenter:circleCenter radius:rForCircle startAngle:angle endAngle:angle+animationDangle clockwise:isClockwise];
         animation.path = bezierPath.CGPath;
         [starView.layer addAnimation:animation forKey:nil];
         
@@ -256,7 +251,7 @@ typedef enum {
  */
 -(CGPoint)calculatePointWithAngle:(float)angle
 {
-    return  CGPointMake(circleCenter.x+cos(angle)*r, circleCenter.y+sin(angle)*r);
+    return  CGPointMake(circleCenter.x+cos(angle)*rForCircle, circleCenter.y+sin(angle)*rForCircle);
 }
 
 /**
@@ -364,7 +359,7 @@ typedef enum {
  */
 -(void)animationStar:(LLStarView *)starView  andWithMoveType:(MoveType)moveType{
     //隐藏部分view
-    if (moonType == MoonLarge) {
+    if (_moonType == MoonLarge) {
         for (int i=0; i<[starsViewArray count]; i++) {
             LLStarView *starView = starsViewArray[i];
             if (starView.center.y>(self.frame.size.height+40)||starView.center.x>self.frame.size.width+40) {
@@ -378,7 +373,7 @@ typedef enum {
     switch (moveType) {
         case NormalSuperMove:{
              angle = [self calculateAngleWithPoint:starView.center];
-             endAngel = [self calculateAngleOriginalWithPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
+             endAngel = [self calculateAngleOriginalWithPoint:myGalaxy.galaxyNext.starView.center];
             //处理第三象限的特殊情况
             if (angle<-M_PI+endAngel) {
                 angle = 2*M_PI+angle;
@@ -391,9 +386,10 @@ typedef enum {
                     break;
                 }
             }
-             angle = [self calculateAngleOriginalWithPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
+           
+             angle = [self calculateAngleOriginalWithPoint: myGalaxy.starView.center];
              endAngel= -M_PI/2+whichOne*(2*M_PI/[starsViewArray count]);
-            if (moonType == MoonLarge) {
+            if (_moonType == MoonLarge) {
                 endAngel =  endAngel -M_PI/2;
             }
             break;
@@ -464,23 +460,25 @@ typedef enum {
     //计算移动经过的坐标
     NSMutableArray *array = [[NSMutableArray alloc]init];
     float dRadius =0;
-    CGPoint center;
+    CGPoint center = CGPointZero;
     float radius = 0.0;
     
-    if (moveType<2) {
-        dRadius=sqrt(pow((self.center.x), 2)+pow((self.center.y), 2)) -r;
+    if (moveType==NormalSuperMove) {
+        dRadius=sqrt(pow((myGalaxy.galaxyNext.starView.center.x), 2)+pow((myGalaxy.galaxyNext.starView.center.y), 2)) -rForCircle;
+    }else{
+        dRadius=sqrt(pow((myGalaxy.galaxyNext.starView.center.x), 2)+pow((myGalaxy.galaxyNext.starView.center.y), 2)) -rForCircle;
     }
-    
+
     for (int i=0; i<=DTime*DD;i++) {
         switch (moveType) {
             case NormalSuperMove:{
                 center = CGPointMake(circleCenter.x - i*circleCenter.x/(DTime*DD), circleCenter.y- i*circleCenter.y/(DTime*DD));
-                radius = r+i*dRadius/(DTime*DD);
+                radius = rForCircle+i*dRadius/(DTime*DD);
 
                 break;
             }case NormalReturnMove:{
                 center = CGPointMake(i*circleCenter.x/(DTime*DD),i*circleCenter.y/(DTime*DD));
-                radius = sqrt(pow((self.center.x), 2)+pow((self.center.y), 2))-i*dRadius/(DTime*DD);
+                radius = sqrt(pow((myGalaxy.galaxyNext.starView.center.x), 2)+pow((myGalaxy.galaxyNext.starView.center.y), 2))-i*dRadius/(DTime*DD);
 
                 break;
             }default:
@@ -505,20 +503,20 @@ typedef enum {
 
 -(void)returnMoon
 {
-    if (moonType == MoonNormal) {
+    if (_moonType == MoonNormal) {
         fistStarAngle = -M_PI/2;
         if ([starsViewArray count]!=0) {
             float angle = 2*M_PI/[starsViewArray count];
             for (int i=0; i<[starsViewArray count]; i++) {
                 LLStarView *moonStar  = starsViewArray[i];
                 [moonStar setFrame:CGRectMake(
-                                              circleCenter.x+r*sin(i*angle)-StarWidth/2,
-                                              circleCenter.y-r*cos(i*angle)-StarWidth/2,
+                                              circleCenter.x+rForCircle*sin(i*angle)-StarWidth/2,
+                                              circleCenter.y-rForCircle*cos(i*angle)-StarWidth/2,
                                               StarWidth,
                                               StarWidth)];
             }
         }
-    }else if (moonType == MoonLarge){
+    }else if (_moonType == MoonLarge){
         fistStarAngle = -M_PI;
         if ([starsViewArray count]!=0) {
             float angle = M_PI/9;
@@ -527,8 +525,8 @@ typedef enum {
                 [moonStar setHidden:NO];
 //                moonStar.layer.opacity = 1;
                 [moonStar setFrame:CGRectMake(
-                                              circleCenter.x-r*cos(i*angle)-StarWidth/2,
-                                              circleCenter.y-r*sin(i*angle)-StarWidth/2,
+                                              circleCenter.x-rForCircle*cos(i*angle)-StarWidth/2,
+                                              circleCenter.y-rForCircle*sin(i*angle)-StarWidth/2,
                                               StarWidth,
                                               StarWidth)];
             }
@@ -540,16 +538,18 @@ typedef enum {
 
 -(void)moveCircleView
 {
+    float large = sqrt(pow((myGalaxy.galaxyNext.starView.center.x), 2)+pow((myGalaxy.galaxyNext.starView.center.y), 2))/rForCircle;
     LLCircleView *circleView = ((LLGalaxyView *)self.superview).circleView;
-    [self circleFromSize:1.0 toSize:2.8 andFromPosition:circleView.layer.position andToPosition:CGPointMake(0,0)];
+    [self circleFromSize:1.0 toSize:large andFromPosition:circleView.layer.position andToPosition:CGPointMake(0,0) andFromOpacity:0.5 andToOpacity:0];
 }
 
 -(void)returnCircleView
 {
+    float large = sqrt(pow((myGalaxy.galaxyNext.starView.center.x), 2)+pow((myGalaxy.galaxyNext.starView.center.y), 2))/rForCircle;
     LLCircleView *circleView = ((LLGalaxyView *)self.superview).circleView;
-    [self circleFromSize:2.8 toSize:1.0 andFromPosition:CGPointMake(0,0) andToPosition:circleView.layer.position];
+    [self circleFromSize:large toSize:1.0 andFromPosition:CGPointMake(0,0) andToPosition:circleView.layer.position andFromOpacity:0 andToOpacity:1];
 }
--(void)circleFromSize:(float) fromSize toSize:(float) toSize andFromPosition:(CGPoint)fromPosition  andToPosition:(CGPoint)toPosition
+-(void)circleFromSize:(float) fromSize toSize:(float) toSize andFromPosition:(CGPoint)fromPosition  andToPosition:(CGPoint)toPosition  andFromOpacity:(float)fromOpacity andToOpacity:(float)toOpacity
 {
     LLCircleView *circleView = ((LLGalaxyView *)self.superview).circleView;
     [circleView setHidden:NO];
@@ -562,13 +562,19 @@ typedef enum {
     
     animationTwo.fromValue = [NSValue valueWithCGPoint:fromPosition];
     animationTwo.toValue = [NSValue valueWithCGPoint:toPosition];
+    //不透明
+    CABasicAnimation *animationThree = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    
+    animationThree.fromValue = [NSNumber numberWithFloat:fromOpacity];
+    animationThree.toValue = [NSNumber numberWithFloat:toOpacity];
+
     //组合
     CAAnimationGroup *group = [CAAnimationGroup animation];
     group.repeatCount = 1;
     group.duration = 0.5;
     group.removedOnCompletion = NO;
     group.fillMode = kCAFillModeForwards;
-    group.animations=@[animationOne,animationTwo];
+    group.animations=@[animationOne,animationTwo,animationThree];
     group.delegate = self;
     [circleView.layer addAnimation:group forKey:@"group"];
 }

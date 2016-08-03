@@ -63,8 +63,6 @@
 
 -(void)showNextGalaxyWith:(LLStarView *)starView andStartObject:(LLStarObject*)theStarObject
 {
-    //本星系 转超星
-    [self setGalaxyStage:GalaxySuper andWithStar:starView];
 
     //新星系 诞生
     LLGalaxyView *galaxyView = [[LLGalaxyView alloc]initWithFrame:self.frame andStar:theStarObject];
@@ -74,6 +72,10 @@
     //星系关系设置
     galaxyView.galaxySuper = self;
     self.galaxyNext = galaxyView;
+    
+    //本星系 转超星
+    [self setGalaxyStage:GalaxySuper andWithStar:starView];
+
 }
 
 -(void)showSubGalaxy:(UIButton *)btn
@@ -145,7 +147,7 @@
         CGContextSetLineWidth(context, 1);
         CGContextSetRGBStrokeColor(context, 220.0/255,220.0/255,220.0/255, 1.0);
         CGContextMoveToPoint(context,0, 0);
-        CGContextAddLineToPoint(context,self.frame.size.width/2,self.frame.size.height/2);
+        CGContextAddLineToPoint(context,self.galaxyNext.starView.center.x,self.galaxyNext.starView.center.y);
         CGContextStrokePath(context);
     }
 }

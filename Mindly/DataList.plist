@@ -89,6 +89,22 @@
 					<key>nextLevel</key>
 					<array/>
 				</dict>
+				<dict>
+					<key>title</key>
+					<string>😄😄😊</string>
+					<key>image</key>
+					<string></string>
+					<key>nextLevel</key>
+					<array/>
+				</dict>
+				<dict>
+					<key>title</key>
+					<string>😄😄😄😄</string>
+					<key>image</key>
+					<string></string>
+					<key>nextLevel</key>
+					<array/>
+				</dict>
 			</array>
 		</dict>
 		<dict>
@@ -110,14 +126,6 @@
 		<dict>
 			<key>title</key>
 			<string>德国6</string>
-			<key>image</key>
-			<string></string>
-			<key>nextLevel</key>
-			<array/>
-		</dict>
-		<dict>
-			<key>title</key>
-			<string>法国7</string>
 			<key>image</key>
 			<string></string>
 			<key>nextLevel</key>
